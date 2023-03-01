@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/Dvlv/Programming/dbgui/b",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/dbgui_autogen/mocs_compilation.cpp.o -c /home/Dvlv/Programming/dbgui/b/dbgui_autogen/mocs_compilation.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/b/dbgui_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/dbgui.dir/dbgui_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/home/Dvlv/Programming/dbgui/b",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/main.cpp.o -c /home/Dvlv/Programming/dbgui/main.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/main.cpp",
+  "output": "CMakeFiles/dbgui.dir/main.cpp.o"
+},
+{
+  "directory": "/home/Dvlv/Programming/dbgui/b",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/mainwindow.cpp.o -c /home/Dvlv/Programming/dbgui/mainwindow.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/mainwindow.cpp",
+  "output": "CMakeFiles/dbgui.dir/mainwindow.cpp.o"
+}
+]
