@@ -9,7 +9,9 @@
 #include <QWidget>
 
 #include <memory>
+#include <qboxlayout.h>
 #include <qfont.h>
+#include <qframe.h>
 #include <qicon.h>
 #include <qlabel.h>
 #include <qlayoutitem.h>
@@ -24,7 +26,6 @@ OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
     QFont font = this->font();
     font.setPointSize(20);
 
-    QHBoxLayout *hbox = new QHBoxLayout();
     QLabel *label = new QLabel("My Boxes");
     label->setFont(font);
 
@@ -68,19 +69,27 @@ OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
     scrollingWidget->setSizePolicy(QSizePolicy::Expanding,
                                    QSizePolicy::Expanding);
 
-    QVBoxLayout *vbox = new QVBoxLayout();
+    QFrame *gridFrame = new QFrame();
+    gridFrame->setFrameShape(QFrame::StyledPanel);
+    gridFrame->setFrameShadow(QFrame::Raised);
+    gridFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // gridFrame->setStyleSheet("QFrame { border: 1px dashed #acacac; "
+    //"background-color: #dbdbdb; padding:40px; }");
+    gridFrame->setLayout(grid);
+
+    QHBoxLayout *hbox = new QHBoxLayout();
 
     hbox->addStretch(1);
     hbox->addWidget(label);
     hbox->addStretch(1);
 
+    QVBoxLayout *vbox = new QVBoxLayout();
     vbox->addItem(hbox);
     vbox->addSpacerItem(new QSpacerItem(0, 30));
-    vbox->addItem(grid);
+    vbox->addWidget(gridFrame);
     vbox->addStretch(1);
 
     scrollingWidget->setLayout(vbox);
 
-    this->setWidget(scrollingWidget);
-    this->setWidgetResizable(true);
+    this->setLayout(vbox);
 }
