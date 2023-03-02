@@ -1,5 +1,4 @@
 #include "overviewpage.h"
-#include "mainwindow.h"
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "managepage.h"
+#include "newboxpage.h"
 #include "overviewpage.h"
 #include <QMainWindow>
 
@@ -14,6 +15,7 @@ class MainWindow : public QMainWindow {
   private:
     OverviewPage *m_overviewpage = nullptr;
     ManagePage *m_managepage = nullptr;
+    NewBoxPage *m_newboxpage = nullptr;
 
   private slots:
     void onAddNewButtonClicked();

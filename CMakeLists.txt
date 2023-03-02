@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         managepage.cpp
         overviewpage.h
         overviewpage.cpp
+        newboxpage.h
+        newboxpage.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

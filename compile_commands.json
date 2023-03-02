@@ -16,5 +16,23 @@
   "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/mainwindow.cpp.o -c /home/Dvlv/Programming/dbgui/mainwindow.cpp",
   "file": "/home/Dvlv/Programming/dbgui/mainwindow.cpp",
   "output": "CMakeFiles/dbgui.dir/mainwindow.cpp.o"
+},
+{
+  "directory": "/home/Dvlv/Programming/dbgui/b",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/managepage.cpp.o -c /home/Dvlv/Programming/dbgui/managepage.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/managepage.cpp",
+  "output": "CMakeFiles/dbgui.dir/managepage.cpp.o"
+},
+{
+  "directory": "/home/Dvlv/Programming/dbgui/b",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/overviewpage.cpp.o -c /home/Dvlv/Programming/dbgui/overviewpage.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/overviewpage.cpp",
+  "output": "CMakeFiles/dbgui.dir/overviewpage.cpp.o"
+},
+{
+  "directory": "/home/Dvlv/Programming/dbgui/b",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/newboxpage.cpp.o -c /home/Dvlv/Programming/dbgui/newboxpage.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/newboxpage.cpp",
+  "output": "CMakeFiles/dbgui.dir/newboxpage.cpp.o"
 }
 ]

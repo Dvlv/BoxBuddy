@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "managepage.h"
+#include "newboxpage.h"
 #include "overviewpage.h"
 #include <QGridLayout>
 #include <QLabel>
@@ -27,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 void MainWindow::onAddNewButtonClicked() {
-    if (m_managepage == nullptr) {
-        m_managepage = new ManagePage();
+    if (m_newboxpage == nullptr) {
+        m_newboxpage = new NewBoxPage();
     }
-    setCentralWidget(m_managepage);
+    setCentralWidget(m_newboxpage);
 }
