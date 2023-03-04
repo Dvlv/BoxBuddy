@@ -17,7 +17,13 @@ class MainWindow : public QMainWindow {
     ManagePage *m_managepage = nullptr;
     NewBoxPage *m_newboxpage = nullptr;
 
+    void showOverviewPage();
+    void showManagePage();
+    void showNewBoxPage();
+
   private slots:
     void onAddNewButtonClicked();
+    void onManageButtonClicked(std::string distro);
+    void onBackButtonClicked();
 };
 #endif // MAINWINDOW_H

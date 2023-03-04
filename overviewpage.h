@@ -19,5 +19,10 @@ class OverviewPage : public QScrollArea {
     shared_ptr<QPushButton> m_newButton = nullptr;
 
     std::vector<shared_ptr<QPushButton>> m_buttons{};
+
+    void onButtonClicked(std::string distro);
+
+  signals:
+    void buttonClicked(std::string distro);
 };
 #endif // OVERVIEWPAGE_H

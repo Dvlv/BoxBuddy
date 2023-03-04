@@ -45,6 +45,13 @@ OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
     m_buttons.push_back(button3);
     m_buttons.push_back(button4);
 
+    // connect buttons to signal which emits the box being opened
+    for (auto &btn : m_buttons) {
+        std::string dn = btn->text().toStdString();
+        connect(btn.get(), &QPushButton::released, this,
+                [dn, this]() { onButtonClicked(dn); });
+    }
+
     // for (int i = 0; i < 20; i++) {
     // buttons.push_back(new QPushButton("Ubuntu"));
     //}
@@ -92,4 +99,8 @@ OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
     scrollingWidget->setLayout(vbox);
 
     this->setLayout(vbox);
+}
+
+void OverviewPage::onButtonClicked(std::string distro) {
+    emit buttonClicked(distro);
 }
