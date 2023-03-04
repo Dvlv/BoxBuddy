@@ -16,7 +16,8 @@ class OverviewPage : public QScrollArea {
 
   public:
     OverviewPage(QWidget *parent = nullptr,
-                 std::vector<Distrobox::DBox> dboxes = {});
+                 std::vector<Distrobox::DBox> dboxes = {},
+                 std::map<std::string, std::string> *distroIcons = nullptr);
 
     shared_ptr<QPushButton> m_newButton = nullptr;
 
@@ -25,6 +26,7 @@ class OverviewPage : public QScrollArea {
     void onButtonClicked(int index);
 
     std::vector<Distrobox::DBox> m_dboxes{};
+    std::map<std::string, std::string> *m_distroIcons = nullptr;
 
   signals:
     void buttonClicked(int index);

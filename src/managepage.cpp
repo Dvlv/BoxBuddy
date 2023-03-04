@@ -10,8 +10,10 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 
-ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox)
-    : QWidget(parent), m_dbox(dbox) {
+ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
+                       std::string distroIcon)
+    : QWidget(parent), m_dbox(dbox), m_distroIcon(distroIcon) {
+
     QVBoxLayout *vbox = new QVBoxLayout();
     QGridLayout *grid = new QGridLayout();
     QHBoxLayout *hbox = new QHBoxLayout();
@@ -22,10 +24,11 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox)
     title->setAlignment(Qt::AlignCenter);
 
     // TODO distro logo
-    QPixmap *logo =
-        new QPixmap("/usr/share/icons/hicolor/48x48/apps/qt4-logo.png");
+    QPixmap *logo = new QPixmap(m_distroIcon.c_str());
     QLabel *logoLabel = new QLabel();
     logoLabel->setPixmap(*logo);
+    logoLabel->setScaledContents(true);
+    logoLabel->setFixedSize(50, 50);
 
     // generate entry
     QIcon geIcon = QIcon::fromTheme("document-new-symbolic");
@@ -68,9 +71,11 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox)
 
     // back
     QIcon backIcon = QIcon::fromTheme("go-previous-symbolic");
-    m_backButton = std::make_shared<QPushButton>(backIcon, "Back");
+    m_backButton = std::make_shared<QPushButton>(backIcon, "Back", this);
+    m_backButton->setGeometry(10, 10, 80, 40);
+    m_backButton->show();
 
-    hbox->addWidget(m_backButton.get());
+    // hbox->addWidget(m_backButton.get());
     hbox->addStretch(1);
     hbox->addWidget(logoLabel);
     hbox->addWidget(title);

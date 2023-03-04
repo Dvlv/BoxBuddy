@@ -9,9 +9,11 @@ class ManagePage : public QWidget {
     Q_OBJECT
 
   public:
-    ManagePage(QWidget *parent = nullptr, Distrobox::DBox dbox = {});
+    ManagePage(QWidget *parent = nullptr, Distrobox::DBox dbox = {},
+               std::string distroIcon = "");
 
     std::shared_ptr<QPushButton> m_backButton = nullptr;
     Distrobox::DBox m_dbox;
+    std::string m_distroIcon;
 };
 #endif // MANAGEPAGE_H

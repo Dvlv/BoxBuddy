@@ -54,8 +54,7 @@ static inline void trim(std::string &s) {
     ltrim(s);
 }
 
-static inline std::string
-tryParseDistroFromImageUrl(const std::string &imageUrl) {
+std::string Distrobox::tryParseDistroFromImageUrl(const std::string &imageUrl) {
     std::vector<std::string> distros = {
         "ubuntu", "debian",    "centos", "oracle", "fedora",   "arch",
         "alma",   "slackware", "gentoo", "kali",   "alpine",   "clearlinux",
@@ -188,4 +187,33 @@ bool Distrobox::deleteBox(std::string boxName) {
     std::system(cmd.c_str());
 
     return true; // TODO
+}
+
+bool Distrobox::createNewBox(std::string boxName, std::string image,
+                             bool root) {
+    std::string cmd = "distrobox create " + boxName + " -i " + image + " -Y";
+    if (root) {
+        cmd += " -r";
+    }
+
+    std::string output = runCmdAndGetOutput(cmd.c_str());
+    // TODO this drops into an interactive prompt if image not found.
+    // not sure if a way around that, though it shouldnt happen as
+    // I'm using a dropdown for selecting the image
+
+    return output.find("already exists") == std::string::npos;
+}
+
+std::vector<std::string> Distrobox::getAvailableImages() {
+
+    std::string imagesOutput = runCmdAndGetOutput("distrobox create -C");
+
+    std::vector<std::string> imagesOutputLines =
+        explodeString(imagesOutput, '\n');
+
+    // some kind of bug in distrobox itself
+    std::erase_if(imagesOutputLines,
+                  [](std::string &s) { return s == "Images"; });
+
+    return imagesOutputLines;
 }

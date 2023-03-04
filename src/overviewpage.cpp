@@ -19,8 +19,9 @@
 #include <qscrollarea.h>
 #include <vector>
 
-OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes)
-    : QScrollArea(parent), m_dboxes(dboxes) {
+OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
+                           std::map<std::string, std::string> *distroIcons)
+    : QScrollArea(parent), m_dboxes(dboxes), m_distroIcons(distroIcons) {
     QGridLayout *grid = new QGridLayout();
     grid->setSpacing(30);
 
@@ -36,7 +37,16 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes)
     for (int i = 0; i < m_dboxes.size(); i++) {
         Distrobox::DBox dbox = m_dboxes[i];
 
-        QPushButton *button = new QPushButton(dbox.name.c_str());
+        QPushButton *button;
+
+        if (m_distroIcons->find(dbox.distro) != m_distroIcons->end()) {
+            QPixmap pixmap(
+                QString::fromStdString(m_distroIcons->at(dbox.distro)));
+            button = new QPushButton(pixmap, dbox.name.c_str());
+        } else {
+            button = new QPushButton(dbox.name.c_str());
+        }
+
         button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         button->setCursor(Qt::PointingHandCursor);
 
