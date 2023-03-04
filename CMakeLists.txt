@@ -16,15 +16,17 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        managepage.h
-        managepage.cpp
-        overviewpage.h
-        overviewpage.cpp
-        newboxpage.h
-        newboxpage.cpp
+        src/main.cpp
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/managepage.h
+        src/managepage.cpp
+        src/overviewpage.h
+        src/overviewpage.cpp
+        src/newboxpage.h
+        src/newboxpage.cpp
+        src/distrobox.h
+        src/distrobox.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
