@@ -1,6 +1,7 @@
 #ifndef OVERVIEWPAGE_H
 #define OVERVIEWPAGE_H
 
+#include "distrobox.h"
 #include <QScrollArea>
 #include <QWidget>
 #include <qpushbutton.h>
@@ -14,15 +15,18 @@ class OverviewPage : public QScrollArea {
     Q_OBJECT
 
   public:
-    OverviewPage(QWidget *parent = nullptr);
+    OverviewPage(QWidget *parent = nullptr,
+                 std::vector<Distrobox::DBox> dboxes = {});
 
     shared_ptr<QPushButton> m_newButton = nullptr;
 
     std::vector<shared_ptr<QPushButton>> m_buttons{};
 
-    void onButtonClicked(std::string distro);
+    void onButtonClicked(int index);
+
+    std::vector<Distrobox::DBox> m_dboxes{};
 
   signals:
-    void buttonClicked(std::string distro);
+    void buttonClicked(int index);
 };
 #endif // OVERVIEWPAGE_H

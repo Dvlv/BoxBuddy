@@ -4,7 +4,9 @@
 #include "managepage.h"
 #include "newboxpage.h"
 #include "overviewpage.h"
+#include "src/distrobox.h"
 #include <QMainWindow>
+#include <vector>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -12,18 +14,20 @@ class MainWindow : public QMainWindow {
   public:
     MainWindow(QWidget *parent = nullptr);
 
+    std::vector<Distrobox::DBox> m_dboxes{};
+
   private:
     OverviewPage *m_overviewpage = nullptr;
     ManagePage *m_managepage = nullptr;
     NewBoxPage *m_newboxpage = nullptr;
 
     void showOverviewPage();
-    void showManagePage();
+    void showManagePage(int index);
     void showNewBoxPage();
 
   private slots:
     void onAddNewButtonClicked();
-    void onManageButtonClicked(std::string distro);
+    void onManageButtonClicked(int index);
     void onBackButtonClicked();
 };
 #endif // MAINWINDOW_H

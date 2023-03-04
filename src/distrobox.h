@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <vector>
 
@@ -12,13 +13,15 @@ struct DBox {
     std::string status;
 };
 
+std::string runCmdInBox(std::string cmd, std::string boxName);
+std::vector<std::string> getLocalApplications(std::string name);
+
 std::vector<DBox> getAllBoxes();
 bool deleteBox(std::string name);
 void openTerminal(std::string name);
-std::vector<std::string> getLocalApplications(std::string name);
 bool exportApplication(std::string boxName, std::string app);
 bool exportService(std::string boxName, std::string service);
 bool addToMenu(std::string boxName);
-bool upgrade(std::string boxName);
+bool upgradeBox(std::string boxName);
 
 } // namespace Distrobox

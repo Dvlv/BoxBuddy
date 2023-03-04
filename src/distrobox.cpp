@@ -54,26 +54,138 @@ static inline void trim(std::string &s) {
     ltrim(s);
 }
 
+static inline std::string
+tryParseDistroFromImageUrl(const std::string &imageUrl) {
+    std::vector<std::string> distros = {
+        "ubuntu", "debian",    "centos", "oracle", "fedora",   "arch",
+        "alma",   "slackware", "gentoo", "kali",   "alpine",   "clearlinux",
+        "void",   "amazon",    "rocky",  "redhat", "opensuse",
+    };
+
+    // first try and get it from the last part of the url
+    std::string imageName = imageUrl.substr(imageUrl.find_last_of("/") + 1);
+
+    std::string distroName = "Unknown";
+
+    for (auto dn : distros) {
+        if (imageName.find(dn) != std::string::npos) {
+            distroName = dn;
+            break;
+        }
+    }
+
+    if (distroName != "Unknown") {
+        return distroName;
+    }
+
+    // if not found, just search in the whole url
+    // this is possibly less accurate, but eh
+    for (auto dn : distros) {
+        if (imageUrl.find(dn) != std::string::npos) {
+            distroName = dn;
+            break;
+        }
+    }
+
+    return distroName;
+}
+
+std::string Distrobox::runCmdInBox(std::string cmd, std::string boxName) {
+    std::string cmdStr = "distrobox enter " + boxName + " -- " + cmd;
+
+    return runCmdAndGetOutput(cmdStr.c_str());
+}
+
 std::vector<Distrobox::DBox> Distrobox::getAllBoxes() {
     std::vector<Distrobox::DBox> boxes;
 
-    std::string dbListOut = runCmdAndGetOutput("distrobox list");
+    std::string dbListOut = runCmdAndGetOutput("distrobox list --no-color");
 
     std::vector<std::string> dbListOutLines = explodeString(dbListOut, '\n');
 
-    for (int i = 1; i < dbListOutLines.size() - 1; ++i) {
+    for (int i = 1; i < dbListOutLines.size(); ++i) {
         std::vector<std::string> fields = explodeString(dbListOutLines[i], '|');
 
         for (auto &field : fields) {
             trim(field);
         }
+
         Distrobox::DBox box = {.name = fields[1],
                                .distro = fields[3],
+                               .imageUrl = fields[3],
                                .ID = fields[0],
                                .status = fields[2]};
+
+        box.distro = tryParseDistroFromImageUrl(box.imageUrl);
 
         boxes.push_back(box);
     }
 
     return boxes;
+}
+
+std::vector<std::string> Distrobox::getLocalApplications(std::string name) {
+    // std::vector<std::string> apps{};
+
+    std::string appsOutput =
+        Distrobox::runCmdInBox("ls -A1 /usr/share/applications", name);
+
+    // TODO parse desktop files for friendlier names
+    // TODO also return icon name
+
+    // for (auto fn : explodeString(appsOutput, '\n')) {
+    // apps.push_back(fn.substr(0, fn.find_last_of(".")));
+    //}
+
+    // return apps;
+    //
+    return explodeString(appsOutput, '\n');
+}
+
+bool Distrobox::exportApplication(std::string boxName, std::string app) {
+    std::string cmd = "distrobox-export -a " + app;
+
+    std::string output = Distrobox::runCmdInBox(cmd.c_str(), boxName);
+
+    return output.find("Error:") == std::string::npos;
+}
+
+bool Distrobox::exportService(std::string boxName, std::string service) {
+    std::string cmd = "distrobox-export -s " + service;
+
+    std::string output = Distrobox::runCmdInBox(cmd.c_str(), boxName);
+
+    return output.find("Error:") == std::string::npos;
+}
+
+bool Distrobox::addToMenu(std::string boxName) {
+    std::string cmd = "distrobox generate-entry " + boxName;
+
+    std::string output = runCmdAndGetOutput(cmd.c_str());
+
+    return output.find("Error:") == std::string::npos;
+}
+
+bool Distrobox::upgradeBox(std::string boxName) {
+    std::string terminalCmd = "konsole -e";
+    std::string cmd = terminalCmd + " distrobox upgrade " + boxName;
+
+    std::system(cmd.c_str());
+
+    return true;
+}
+
+void Distrobox::openTerminal(std::string boxName) {
+    std::string terminalCmd = "konsole -e";
+    std::string cmd = terminalCmd + " distrobox enter " + boxName;
+
+    std::system(cmd.c_str());
+}
+
+bool Distrobox::deleteBox(std::string boxName) {
+    std::string cmd = "distrobox rm " + boxName;
+
+    std::system(cmd.c_str());
+
+    return true; // TODO
 }

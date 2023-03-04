@@ -1,4 +1,5 @@
 #include "overviewpage.h"
+#include "src/distrobox.h"
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -18,7 +19,8 @@
 #include <qscrollarea.h>
 #include <vector>
 
-OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
+OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes)
+    : QScrollArea(parent), m_dboxes(dboxes) {
     QGridLayout *grid = new QGridLayout();
     grid->setSpacing(30);
 
@@ -30,26 +32,18 @@ OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
     label->setFont(font);
 
     // button for each installed box
-    // TODO this is mock data to be fetched from DB
-    std::shared_ptr<QPushButton> button1 =
-        std::make_shared<QPushButton>("Ubuntu");
-    std::shared_ptr<QPushButton> button2 =
-        std::make_shared<QPushButton>("Fedora");
-    std::shared_ptr<QPushButton> button3 =
-        std::make_shared<QPushButton>("Arch");
-    std::shared_ptr<QPushButton> button4 =
-        std::make_shared<QPushButton>("Debian");
 
-    m_buttons.push_back(button1);
-    m_buttons.push_back(button2);
-    m_buttons.push_back(button3);
-    m_buttons.push_back(button4);
+    for (int i = 0; i < m_dboxes.size(); i++) {
+        Distrobox::DBox dbox = m_dboxes[i];
 
-    // connect buttons to signal which emits the box being opened
-    for (auto &btn : m_buttons) {
-        std::string dn = btn->text().toStdString();
-        connect(btn.get(), &QPushButton::released, this,
-                [dn, this]() { onButtonClicked(dn); });
+        QPushButton *button = new QPushButton(dbox.name.c_str());
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        button->setCursor(Qt::PointingHandCursor);
+
+        connect(button, &QPushButton::released, this,
+                [this, i]() { emit buttonClicked(i); });
+
+        m_buttons.push_back(std::shared_ptr<QPushButton>(button));
     }
 
     // for (int i = 0; i < 20; i++) {
@@ -101,6 +95,4 @@ OverviewPage::OverviewPage(QWidget *parent) : QScrollArea(parent) {
     this->setLayout(vbox);
 }
 
-void OverviewPage::onButtonClicked(std::string distro) {
-    emit buttonClicked(distro);
-}
+void OverviewPage::onButtonClicked(int index) { emit buttonClicked(index); }

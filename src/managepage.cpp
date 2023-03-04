@@ -1,4 +1,5 @@
 #include "managepage.h"
+#include "distrobox.h"
 #include <QGridLayout>
 #include <QPixmap>
 #include <QPushButton>
@@ -9,14 +10,15 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 
-ManagePage::ManagePage(QWidget *parent) : QWidget(parent) {
+ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox)
+    : QWidget(parent), m_dbox(dbox) {
     QVBoxLayout *vbox = new QVBoxLayout();
     QGridLayout *grid = new QGridLayout();
     QHBoxLayout *hbox = new QHBoxLayout();
     grid->setSpacing(25);
 
     // TODO distro name
-    QLabel *title = new QLabel("Ubuntu 22.04");
+    QLabel *title = new QLabel(m_dbox.name.c_str());
     title->setAlignment(Qt::AlignCenter);
 
     // TODO distro logo
@@ -28,6 +30,10 @@ ManagePage::ManagePage(QWidget *parent) : QWidget(parent) {
     // generate entry
     QIcon geIcon = QIcon::fromTheme("document-new-symbolic");
     QPushButton *generateEntry = new QPushButton(geIcon, "Add Box to Menu");
+
+    // TODO make this actual method so I can show success popup
+    connect(generateEntry, &QPushButton::clicked, this,
+            [this]() { Distrobox::addToMenu(m_dbox.name); });
 
     // export app button
     QIcon exportIcon = QIcon::fromTheme("media-eject-symbolic");
@@ -41,13 +47,24 @@ ManagePage::ManagePage(QWidget *parent) : QWidget(parent) {
     QIcon updateIcon = QIcon::fromTheme("system-software-update-symbolic");
     QPushButton *upgradeButton = new QPushButton(updateIcon, "Upgrade");
 
+    connect(upgradeButton, &QPushButton::clicked, this,
+            [this]() { Distrobox::upgradeBox(m_dbox.name); });
+
     // remove
     QIcon removeIcon = QIcon::fromTheme("edit-delete-symbolic");
     QPushButton *removeButton = new QPushButton(removeIcon, "Delete");
 
+    // TODO delete needs to go back to overview and re-fetch
+    // do another signal like onManageButtonClicked
+    connect(removeButton, &QPushButton::clicked, this,
+            [this]() { Distrobox::deleteBox(m_dbox.name); });
+
     // launch term
     QIcon termIcon = QIcon::fromTheme("utilities-terminal-symbolic");
     QPushButton *termButton = new QPushButton(termIcon, "Open Terminal");
+
+    connect(termButton, &QPushButton::clicked, this,
+            [this]() { Distrobox::openTerminal(m_dbox.name); });
 
     // back
     QIcon backIcon = QIcon::fromTheme("go-previous-symbolic");
