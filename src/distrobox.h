@@ -26,5 +26,6 @@ bool exportApplication(std::string boxName, std::string app);
 bool exportService(std::string boxName, std::string service);
 bool addToMenu(std::string boxName);
 bool upgradeBox(std::string boxName);
+void initNewBox(std::string boxName);
 
 } // namespace Distrobox

@@ -26,18 +26,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     m_distroIcons = {
         {"alma", "data/imgs/alma.png"},
         {"alpine", "data/imgs/alpine.png"},
+        {"amazon", "data/imgs/amazon.png"},
         {"arch", "data/imgs/arch.png"},
-        {"clearlinux", "data/imgs/clearlinux.png"},
         {"centos", "data/imgs/centos.svg"},
+        {"clearlinux", "data/imgs/clearlinux.png"},
         {"debian", "data/imgs/debian.png"},
         {"fedora", "data/imgs/fedora.svg"},
         {"gentoo", "data/imgs/gentoo.png"},
+        {"kali", "data/imgs/kali.png"},
+        {"mageia", "data/imgs/mageia.png"},
         {"opensuse", "data/imgs/opensuse.png"},
+        {"oracle", "data/imgs/oracle.png"},
         {"redhat", "data/imgs/redhat.png"},
         {"rocky", "data/imgs/rocky.png"},
         {"slackware", "data/imgs/slackware.png"},
-        {"void", "data/imgs/void.png"},
         {"ubuntu", "data/imgs/ubuntu.svg"},
+        {"void", "data/imgs/void.png"},
     };
 
     showOverviewPage();

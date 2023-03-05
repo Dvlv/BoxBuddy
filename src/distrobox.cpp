@@ -58,13 +58,15 @@ std::string Distrobox::tryParseDistroFromImageUrl(const std::string &imageUrl) {
     std::vector<std::string> distros = {
         "ubuntu", "debian",    "centos", "oracle", "fedora",   "arch",
         "alma",   "slackware", "gentoo", "kali",   "alpine",   "clearlinux",
-        "void",   "amazon",    "rocky",  "redhat", "opensuse",
+        "void",   "amazon",    "rocky",  "redhat", "opensuse", "mageia",
     };
 
     // first try and get it from the last part of the url
     std::string imageName = imageUrl.substr(imageUrl.find_last_of("/") + 1);
 
-    std::string distroName = "Unknown";
+    // this z is a daft hack to get the unknown distros to the bottom of the
+    // select
+    std::string distroName = "zunknown";
 
     for (auto dn : distros) {
         if (imageName.find(dn) != std::string::npos) {
@@ -73,7 +75,7 @@ std::string Distrobox::tryParseDistroFromImageUrl(const std::string &imageUrl) {
         }
     }
 
-    if (distroName != "Unknown") {
+    if (distroName != "zunknown") {
         return distroName;
     }
 
@@ -175,8 +177,8 @@ bool Distrobox::upgradeBox(std::string boxName) {
 }
 
 void Distrobox::openTerminal(std::string boxName) {
-    std::string terminalCmd = "konsole -e";
-    std::string cmd = terminalCmd + " distrobox enter " + boxName;
+    std::string terminalCmd = "setsid konsole -e";
+    std::string cmd = terminalCmd + " distrobox enter " + boxName + " &";
 
     std::system(cmd.c_str());
 }
@@ -207,7 +209,6 @@ std::string Distrobox::createNewBox(const std::string boxName,
 }
 
 std::vector<std::string> Distrobox::getAvailableImages() {
-
     std::string imagesOutput = runCmdAndGetOutput("distrobox create -C");
 
     std::vector<std::string> imagesOutputLines =
@@ -217,5 +218,17 @@ std::vector<std::string> Distrobox::getAvailableImages() {
     std::erase_if(imagesOutputLines,
                   [](std::string &s) { return s == "Images"; });
 
+    std::sort(imagesOutputLines.begin(), imagesOutputLines.end(),
+              [](auto &a, auto &b) {
+                  return tryParseDistroFromImageUrl(a) <
+                         tryParseDistroFromImageUrl(b);
+              });
+
     return imagesOutputLines;
+}
+
+void Distrobox::initNewBox(std::string boxName) {
+    std::string cmd = "setsid distrobox enter " + boxName + " -- ls";
+
+    std::system(cmd.c_str());
 }

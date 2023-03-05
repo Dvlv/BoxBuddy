@@ -27,6 +27,7 @@ set(PROJECT_SOURCES
         src/newboxpage.cpp
         src/distrobox.h
         src/distrobox.cpp
+        src/dbbackgroundworker.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
