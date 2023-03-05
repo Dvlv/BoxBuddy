@@ -70,6 +70,12 @@ void MainWindow::showNewBoxPage() {
     connect(m_newboxpage->m_backButton.get(), &QPushButton::released, this,
             &MainWindow::onBackButtonClicked);
 
+    // refetch boxes and load overview page on create
+    connect(m_newboxpage, &NewBoxPage::newBoxCreated, this, [this]() {
+        m_dboxes = Distrobox::getAllBoxes();
+        showOverviewPage();
+    });
+
     setCentralWidget(m_newboxpage);
 }
 
@@ -84,6 +90,12 @@ void MainWindow::showManagePage(int index) {
     // back
     connect(m_managepage->m_backButton.get(), &QPushButton::released, this,
             &MainWindow::onBackButtonClicked);
+
+    // refetch boxes and load overview page on delete
+    connect(m_managepage, &ManagePage::boxDeleted, this, [this]() {
+        m_dboxes = Distrobox::getAllBoxes();
+        showOverviewPage();
+    });
 
     setCentralWidget(m_managepage);
 }

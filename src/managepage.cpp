@@ -57,10 +57,8 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     QIcon removeIcon = QIcon::fromTheme("edit-delete-symbolic");
     QPushButton *removeButton = new QPushButton(removeIcon, "Delete");
 
-    // TODO delete needs to go back to overview and re-fetch
-    // do another signal like onManageButtonClicked
     connect(removeButton, &QPushButton::clicked, this,
-            [this]() { Distrobox::deleteBox(m_dbox.name); });
+            &ManagePage::onDeleteButtonClicked);
 
     // launch term
     QIcon termIcon = QIcon::fromTheme("utilities-terminal-symbolic");
@@ -94,4 +92,9 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     vbox->addStretch(1);
 
     setLayout(vbox);
+}
+
+void ManagePage::onDeleteButtonClicked() {
+    Distrobox::deleteBox(m_dbox.name);
+    emit boxDeleted();
 }

@@ -15,5 +15,11 @@ class ManagePage : public QWidget {
     std::shared_ptr<QPushButton> m_backButton = nullptr;
     Distrobox::DBox m_dbox;
     std::string m_distroIcon;
+
+  public slots:
+    void onDeleteButtonClicked();
+
+  signals:
+    void boxDeleted();
 };
 #endif // MANAGEPAGE_H

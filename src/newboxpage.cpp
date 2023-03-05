@@ -1,13 +1,17 @@
 #include "newboxpage.h"
+#include "dbbackgroundworker.h"
 #include "distrobox.h"
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLineEdit>
+#include <QProgressBar>
+#include <QThread>
 #include <qboxlayout.h>
 #include <qframe.h>
 #include <qlabel.h>
 #include <qlayoutitem.h>
+#include <qobject.h>
 
 NewBoxPage::NewBoxPage(QWidget *parent,
                        std::map<std::string, std::string> *distroIcons)
@@ -15,6 +19,13 @@ NewBoxPage::NewBoxPage(QWidget *parent,
     // TODO smart pointers and maybe member vars
     // TODO put the form in its own frame separate form the title
     m_images = Distrobox::getAvailableImages();
+
+    // output messages
+    m_outputLabel = new QLabel(" ");
+    m_outputLabel->setAlignment(Qt::AlignCenter);
+    m_progressBar = new QProgressBar();
+    m_progressBar->setRange(0, 0);
+    m_progressBar->hide();
 
     // ----- form
     m_createButton = std::make_shared<QPushButton>("Create");
@@ -76,11 +87,44 @@ NewBoxPage::NewBoxPage(QWidget *parent,
     vbox->addItem(hbox);
     vbox->addWidget(formFrame);
     vbox->addStretch(1);
+    vbox->addWidget(m_outputLabel);
+    vbox->addWidget(m_progressBar);
 
     this->setLayout(vbox);
     this->setWidgetResizable(true);
+
+    // async worker
+    m_worker = new Worker;
+    m_worker->moveToThread(&workerThread);
+
+    connect(&workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
+    connect(this, &NewBoxPage::doCreate, m_worker, &Worker::createDistrobox);
+    connect(m_worker, &Worker::distroboxCreated, this,
+            &NewBoxPage::onBoxCreated);
+    workerThread.start();
 }
 
 void NewBoxPage::onFormSubmit() {
-    // TODO
+    m_outputLabel->setText("Creating, please wait...");
+    m_progressBar->show();
+    m_outputLabel->repaint();
+    m_progressBar->repaint();
+
+    QString name = m_nameEdit->text();
+    QString distro = m_distroSelect->currentText();
+    bool root = m_rootCheckBox->isChecked();
+
+    emit doCreate(name, distro, root);
+}
+
+void NewBoxPage::onBoxCreated(QString result) {
+    m_outputLabel->setText(result);
+    m_progressBar->hide();
+
+    emit newBoxCreated();
+}
+
+NewBoxPage::~NewBoxPage() {
+    workerThread.quit();
+    workerThread.wait();
 }

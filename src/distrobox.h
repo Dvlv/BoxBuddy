@@ -19,7 +19,7 @@ std::vector<std::string> getAvailableImages();
 std::string tryParseDistroFromImageUrl(const std::string &imageUrl);
 
 std::vector<DBox> getAllBoxes();
-bool createNewBox(std::string name, std::string image, bool root);
+std::string createNewBox(std::string name, std::string image, bool root);
 bool deleteBox(std::string name);
 void openTerminal(std::string name);
 bool exportApplication(std::string boxName, std::string app);

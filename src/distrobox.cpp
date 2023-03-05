@@ -182,26 +182,28 @@ void Distrobox::openTerminal(std::string boxName) {
 }
 
 bool Distrobox::deleteBox(std::string boxName) {
-    std::string cmd = "distrobox rm " + boxName;
+    std::string cmd = "distrobox rm " + boxName + " -f";
 
     std::system(cmd.c_str());
 
     return true; // TODO
 }
 
-bool Distrobox::createNewBox(std::string boxName, std::string image,
-                             bool root) {
+std::string Distrobox::createNewBox(const std::string boxName,
+                                    const std::string image, bool root) {
     std::string cmd = "distrobox create " + boxName + " -i " + image + " -Y";
     if (root) {
         cmd += " -r";
     }
+
+    cmd += " 2>&1";
 
     std::string output = runCmdAndGetOutput(cmd.c_str());
     // TODO this drops into an interactive prompt if image not found.
     // not sure if a way around that, though it shouldnt happen as
     // I'm using a dropdown for selecting the image
 
-    return output.find("already exists") == std::string::npos;
+    return output;
 }
 
 std::vector<std::string> Distrobox::getAvailableImages() {
