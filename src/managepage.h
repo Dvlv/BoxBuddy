@@ -18,6 +18,8 @@ class ManagePage : public QWidget {
 
   public slots:
     void onDeleteButtonClicked();
+    void onExportAppClicked();
+    void onExportService();
 
   signals:
     void boxDeleted();

@@ -14,11 +14,11 @@ class Worker : public QObject {
 
   public slots:
     void createDistrobox(QString name, QString image, bool root) {
-        printf("creating distrobox\n");
         std::string output = Distrobox::createNewBox(name.toStdString(),
                                                      image.toStdString(), root);
 
-        printf("emitting\n");
+        Distrobox::initNewBox(name.toStdString());
+
         emit distroboxCreated(QString::fromStdString(output));
     }
 

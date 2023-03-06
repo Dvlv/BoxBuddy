@@ -6,6 +6,8 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <qboxlayout.h>
+#include <qfont.h>
+#include <qgridlayout.h>
 #include <qicon.h>
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -42,9 +44,15 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     QIcon exportIcon = QIcon::fromTheme("media-eject-symbolic");
     QPushButton *exportApp = new QPushButton(exportIcon, "Export An App");
 
+    connect(exportApp, &QPushButton::clicked, this,
+            &ManagePage::onExportAppClicked);
+
     // export service button
     QPushButton *exportService =
         new QPushButton(exportIcon, "Export A Service");
+
+    connect(exportService, &QPushButton::clicked, this,
+            &ManagePage::onExportService);
 
     // upgrade
     QIcon updateIcon = QIcon::fromTheme("system-software-update-symbolic");
@@ -97,4 +105,80 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
 void ManagePage::onDeleteButtonClicked() {
     Distrobox::deleteBox(m_dbox.name);
     emit boxDeleted();
+}
+
+void ManagePage::onExportAppClicked() {
+    // TODO
+    QWidget *popupWindow = new QWidget();
+    popupWindow->setWindowTitle("Export an App");
+    popupWindow->setWindowModality(Qt::ApplicationModal);
+
+    QVBoxLayout *vbox = new QVBoxLayout();
+    QGridLayout *grid = new QGridLayout();
+
+    QFont font = this->font();
+    font.setPixelSize(18);
+
+    QLabel *successLabel = new QLabel(" ");
+    successLabel->setAlignment(Qt::AlignCenter);
+    successLabel->setFont(font);
+
+    std::vector<std::string> apps =
+        Distrobox::getLocalApplications(m_dbox.name);
+
+    font.setPixelSize(16);
+
+    for (int i = 0; i < apps.size(); ++i) {
+
+        std::string app = apps.at(i);
+        app = app.substr(0, app.length() - 1);
+        QIcon appIcon = QIcon::fromTheme(app.c_str()); // strip newline
+                                                       //
+        appIcon = appIcon.isNull()
+                      ? QIcon::fromTheme("application-x-executable")
+                      : appIcon;
+
+        QLabel *appLabel = new QLabel(app.c_str());
+        appLabel->setFont(font);
+
+        QLabel *appIconLabel = new QLabel();
+        appIconLabel->setPixmap(appIcon.pixmap(40, 40));
+
+        QPushButton *runButton = new QPushButton("Run");
+        runButton->setFont(font);
+
+        QPushButton *exportButton = new QPushButton("Add to Menu");
+        exportButton->setFont(font);
+
+        connect(exportButton, &QPushButton::clicked, this,
+                [this, successLabel, app]() {
+                    bool res = Distrobox::exportApplication(m_dbox.name, app);
+                    if (res) {
+                        std::string success = app + " Exported Successfully!";
+                        successLabel->setText(success.c_str());
+                    }
+                });
+
+        // TODO need to parse the desktop file for its command
+        connect(runButton, &QPushButton::clicked, this,
+                [this, popupWindow, app]() {
+                    Distrobox::runCmdInBox(app, m_dbox.name);
+                    popupWindow->close();
+                });
+
+        grid->addWidget(appIconLabel, i, 0);
+        grid->addWidget(appLabel, i, 1);
+        grid->addWidget(runButton, i, 2);
+        grid->addWidget(exportButton, i, 3);
+    }
+
+    vbox->addWidget(successLabel);
+    vbox->addLayout(grid);
+    popupWindow->setLayout(vbox);
+
+    popupWindow->show();
+}
+
+void ManagePage::onExportService() {
+    // TODO
 }

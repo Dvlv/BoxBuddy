@@ -121,9 +121,6 @@ void NewBoxPage::onBoxCreated(QString result) {
     m_outputLabel->setText(result);
     m_progressBar->hide();
 
-    // TODO run me in new thread before hiding progress bar
-    Distrobox::initNewBox(m_nameEdit->text().toStdString());
-
     emit newBoxCreated();
 }
 

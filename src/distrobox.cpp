@@ -126,20 +126,11 @@ std::vector<Distrobox::DBox> Distrobox::getAllBoxes() {
 }
 
 std::vector<std::string> Distrobox::getLocalApplications(std::string name) {
-    // std::vector<std::string> apps{};
+    // TODO make a struct with icon name, command-to-run and program name
 
     std::string appsOutput =
-        Distrobox::runCmdInBox("ls -A1 /usr/share/applications", name);
+        Distrobox::runCmdInBox("./src/list-local-apps.sh", name);
 
-    // TODO parse desktop files for friendlier names
-    // TODO also return icon name
-
-    // for (auto fn : explodeString(appsOutput, '\n')) {
-    // apps.push_back(fn.substr(0, fn.find_last_of(".")));
-    //}
-
-    // return apps;
-    //
     return explodeString(appsOutput, '\n');
 }
 
@@ -147,6 +138,7 @@ bool Distrobox::exportApplication(std::string boxName, std::string app) {
     std::string cmd = "distrobox-export -a " + app;
 
     std::string output = Distrobox::runCmdInBox(cmd.c_str(), boxName);
+    printf("%s, %s\n", app.c_str(), output.c_str());
 
     return output.find("Error:") == std::string::npos;
 }

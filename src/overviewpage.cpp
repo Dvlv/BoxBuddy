@@ -27,7 +27,7 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
 
     // Title at top
     QFont font = this->font();
-    font.setPointSize(20);
+    font.setPixelSize(20);
 
     QLabel *label = new QLabel("My Boxes");
     label->setFont(font);
@@ -43,12 +43,14 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
             QPixmap pixmap(
                 QString::fromStdString(m_distroIcons->at(dbox.distro)));
             button = new QPushButton(pixmap, dbox.name.c_str());
+            button->setIconSize(QSize(40, 40));
         } else {
             button = new QPushButton(dbox.name.c_str());
         }
 
         button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        button->setCursor(Qt::PointingHandCursor);
+        font.setPixelSize(16);
+        button->setFont(font);
 
         connect(button, &QPushButton::released, this,
                 [this, i]() { emit buttonClicked(i); });
