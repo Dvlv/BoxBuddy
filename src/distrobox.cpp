@@ -1,6 +1,7 @@
 #include "distrobox.h"
 #include <algorithm>
 #include <array>
+#include <iostream>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -125,13 +126,58 @@ std::vector<Distrobox::DBox> Distrobox::getAllBoxes() {
     return boxes;
 }
 
-std::vector<std::string> Distrobox::getLocalApplications(std::string name) {
-    // TODO make a struct with icon name, command-to-run and program name
-
+std::vector<Distrobox::LocalApp>
+Distrobox::getLocalApplications(std::string name) {
     std::string appsOutput =
         Distrobox::runCmdInBox("./src/list-local-apps.sh", name);
 
-    return explodeString(appsOutput, '\n');
+    std::vector<std::string> desktopFiles = explodeString(appsOutput, '\n');
+    for (auto &desktopFile : desktopFiles) {
+        desktopFile = desktopFile.substr(0, desktopFile.size() - 1);
+    }
+
+    if (desktopFiles.size() == 1 &&
+        desktopFiles[0].find("No such file or directory") !=
+            std::string::npos) {
+        // box has nothing installed, return blank
+        return {};
+    }
+
+    std::vector<Distrobox::LocalApp> apps;
+
+    for (auto desktopFile : desktopFiles) {
+        std::string appExec = Distrobox::runCmdInBox(
+            "bash ./src/get-app-exec.sh " + desktopFile, name);
+
+        // some desktop files have multiple execs
+        // we only want the first one
+        std::vector<std::string> appExecs = explodeString(appExec, '\n');
+        if (appExecs.size() > 0) {
+            appExec = appExecs[0];
+        }
+
+        if (appExec.size() > 5) {
+            appExec = appExec.substr(5, appExec.size());
+        }
+
+        std::string appIcon = Distrobox::runCmdInBox(
+            "bash ./src/get-app-icon.sh " + desktopFile, name);
+
+        if (appIcon.size() > 5) {
+            appIcon = appIcon.substr(5, appIcon.size());
+        }
+
+        // substr gets rid of "exec=" and "icon="
+        auto app = Distrobox::LocalApp{
+            .name = desktopFile,
+            .execName = appExec.substr(0, appExec.size() - 1),
+            .icon = appIcon.substr(0, appIcon.size() - 2),
+        };
+
+        apps.push_back(app);
+    }
+
+    return apps;
 }
 
 bool Distrobox::exportApplication(std::string boxName, std::string app) {

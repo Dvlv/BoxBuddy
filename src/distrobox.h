@@ -13,8 +13,14 @@ struct DBox {
     std::string status;
 };
 
+struct LocalApp {
+    std::string name;
+    std::string execName;
+    std::string icon;
+};
+
 std::string runCmdInBox(std::string cmd, std::string boxName);
-std::vector<std::string> getLocalApplications(std::string name);
+std::vector<LocalApp> getLocalApplications(std::string name);
 std::vector<std::string> getAvailableImages();
 std::string tryParseDistroFromImageUrl(const std::string &imageUrl);
 

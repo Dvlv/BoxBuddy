@@ -11,6 +11,7 @@ class Worker : public QObject {
   signals:
     void distroboxCreated(QString result);
     void distroboxDeleted(bool result);
+    void commandRun();
 
   public slots:
     void createDistrobox(QString name, QString image, bool root) {
@@ -25,5 +26,11 @@ class Worker : public QObject {
     void deleteDistrobox(const std::string &name) {
         bool output = Distrobox::deleteBox(name);
         emit distroboxDeleted(output);
+    }
+
+    void runCommandInBox(QString cmd, QString boxName) {
+        std::string output =
+            Distrobox::runCmdInBox(cmd.toStdString(), boxName.toStdString());
+        emit commandRun();
     }
 };

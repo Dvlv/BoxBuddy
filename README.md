@@ -1,18 +1,20 @@
 # GUI for Distrobox
 
 ## TODO
-- [ ] background worker for Run in manage
-- [ ] Struct for distrobox getlocalapps
+- [ ] Background worker + message while loading apps
 - [ ] Font sizes on more buttons
 - [ ] Fix or remove root checkbox
-- [ ] rename Export app button
-- [ ] export service button
+- [ ] bold labels on form
 - [ ] background worker for do update button
-- [ ] font and icon sizes in image dropdown
 - [ ] credits button
 - [ ] remove add to menu button as it appears to be default anyway
 - [ ] are you sure popup on delete
 - [ ] better icon for upgrade button
+
+- [x] background worker for Run in manage
+- [x] Struct for distrobox getlocalapps
+- [x] rename Export app button
+- [x] font and icon sizes in image dropdown
 
 ## Possible Functionality
 - [ ] Install .deb or .rpm (detect distro and change accordingly)

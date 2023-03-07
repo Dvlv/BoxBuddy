@@ -8,6 +8,7 @@
 #include <QProgressBar>
 #include <QThread>
 #include <qboxlayout.h>
+#include <qfont.h>
 #include <qframe.h>
 #include <qlabel.h>
 #include <qlayoutitem.h>
@@ -39,7 +40,10 @@ NewBoxPage::NewBoxPage(QWidget *parent,
 
     m_nameEdit = new QLineEdit();
 
+    QFont font = this->font();
+    font.setPixelSize(16);
     m_distroSelect = new QComboBox();
+    m_distroSelect->setFont(font);
     for (auto &image : m_images) {
         // TODO icons
         std::string distroName = Distrobox::tryParseDistroFromImageUrl(image);
@@ -48,6 +52,7 @@ NewBoxPage::NewBoxPage(QWidget *parent,
             QPixmap pixmap(QString::fromStdString(iconPath));
 
             m_distroSelect->addItem(pixmap, QString::fromStdString(image));
+            m_distroSelect->setIconSize(QSize(24, 24));
         } else {
             m_distroSelect->addItem(QString::fromStdString(image));
         }
@@ -71,7 +76,6 @@ NewBoxPage::NewBoxPage(QWidget *parent,
     formFrame->setLayout(form);
 
     // ------ title
-    QFont font = this->font();
     font.setPointSize(20);
     QLabel *titleLabel = new QLabel("Create A New Box");
     titleLabel->setFont(font);

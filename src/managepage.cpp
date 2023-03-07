@@ -1,10 +1,12 @@
 #include "managepage.h"
+#include "dbbackgroundworker.h"
 #include "distrobox.h"
 #include <QGridLayout>
 #include <QPixmap>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <cstdlib>
 #include <qboxlayout.h>
 #include <qfont.h>
 #include <qgridlayout.h>
@@ -32,27 +34,12 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     logoLabel->setScaledContents(true);
     logoLabel->setFixedSize(50, 50);
 
-    // generate entry
-    QIcon geIcon = QIcon::fromTheme("document-new-symbolic");
-    QPushButton *generateEntry = new QPushButton(geIcon, "Add Box to Menu");
-
-    // TODO make this actual method so I can show success popup
-    connect(generateEntry, &QPushButton::clicked, this,
-            [this]() { Distrobox::addToMenu(m_dbox.name); });
-
     // export app button
-    QIcon exportIcon = QIcon::fromTheme("media-eject-symbolic");
-    QPushButton *exportApp = new QPushButton(exportIcon, "Export An App");
+    QIcon exportIcon = QIcon::fromTheme("application-x-executable-symbolic");
+    QPushButton *exportApp = new QPushButton(exportIcon, "Installed Apps");
 
     connect(exportApp, &QPushButton::clicked, this,
             &ManagePage::onExportAppClicked);
-
-    // export service button
-    QPushButton *exportService =
-        new QPushButton(exportIcon, "Export A Service");
-
-    connect(exportService, &QPushButton::clicked, this,
-            &ManagePage::onExportService);
 
     // upgrade
     QIcon updateIcon = QIcon::fromTheme("system-software-update-symbolic");
@@ -88,11 +75,9 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     hbox->addStretch(1);
 
     grid->addWidget(termButton, 0, 0);
-    grid->addWidget(generateEntry, 0, 1);
-    grid->addWidget(exportApp, 1, 0);
-    grid->addWidget(exportService, 1, 1);
-    grid->addWidget(upgradeButton, 2, 0);
-    grid->addWidget(removeButton, 2, 1);
+    grid->addWidget(exportApp, 0, 1);
+    grid->addWidget(upgradeButton, 1, 0);
+    grid->addWidget(removeButton, 1, 1);
 
     vbox->addLayout(hbox);
     vbox->addSpacerItem(new QSpacerItem(0, 30));
@@ -100,6 +85,15 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     vbox->addStretch(1);
 
     setLayout(vbox);
+
+    // async worker
+    m_worker = new Worker;
+    m_worker->moveToThread(&workerThread);
+
+    connect(&workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
+    connect(this, &ManagePage::runBackgroundCmd, m_worker,
+            &Worker::runCommandInBox);
+    workerThread.start();
 }
 
 void ManagePage::onDeleteButtonClicked() {
@@ -123,22 +117,21 @@ void ManagePage::onExportAppClicked() {
     successLabel->setAlignment(Qt::AlignCenter);
     successLabel->setFont(font);
 
-    std::vector<std::string> apps =
+    std::vector<Distrobox::LocalApp> apps =
         Distrobox::getLocalApplications(m_dbox.name);
 
     font.setPixelSize(16);
 
     for (int i = 0; i < apps.size(); ++i) {
+        Distrobox::LocalApp app = apps.at(i);
 
-        std::string app = apps.at(i);
-        app = app.substr(0, app.length() - 1);
-        QIcon appIcon = QIcon::fromTheme(app.c_str()); // strip newline
-                                                       //
+        QIcon appIcon = QIcon::fromTheme(app.icon.c_str());
+
         appIcon = appIcon.isNull()
                       ? QIcon::fromTheme("application-x-executable")
                       : appIcon;
 
-        QLabel *appLabel = new QLabel(app.c_str());
+        QLabel *appLabel = new QLabel(app.name.c_str());
         appLabel->setFont(font);
 
         QLabel *appIconLabel = new QLabel();
@@ -152,17 +145,19 @@ void ManagePage::onExportAppClicked() {
 
         connect(exportButton, &QPushButton::clicked, this,
                 [this, successLabel, app]() {
-                    bool res = Distrobox::exportApplication(m_dbox.name, app);
+                    bool res =
+                        Distrobox::exportApplication(m_dbox.name, app.name);
                     if (res) {
-                        std::string success = app + " Exported Successfully!";
+                        std::string success =
+                            app.name + " Exported Successfully!";
                         successLabel->setText(success.c_str());
                     }
                 });
 
-        // TODO need to parse the desktop file for its command
         connect(runButton, &QPushButton::clicked, this,
                 [this, popupWindow, app]() {
-                    Distrobox::runCmdInBox(app, m_dbox.name);
+                    emit runBackgroundCmd(QString::fromStdString(app.execName),
+                                          QString::fromStdString(m_dbox.name));
                     popupWindow->close();
                 });
 
@@ -181,4 +176,9 @@ void ManagePage::onExportAppClicked() {
 
 void ManagePage::onExportService() {
     // TODO
+}
+
+ManagePage::~ManagePage() {
+    workerThread.quit();
+    workerThread.wait();
 }
