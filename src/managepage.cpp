@@ -30,12 +30,17 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     QHBoxLayout *hbox = new QHBoxLayout();
     grid->setSpacing(25);
 
-    // TODO distro name
+    QFrame *buttonFrame = new QFrame();
+    buttonFrame->setFrameShadow(QFrame::Raised);
+    buttonFrame->setFrameShape(QFrame::StyledPanel);
+    buttonFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    buttonFrame->setStyleSheet("QFrame {padding: 15px;}");
+    buttonFrame->setLayout(grid);
+
     QLabel *title = new QLabel(m_dbox.name.c_str());
     title->setAlignment(Qt::AlignCenter);
     title->setFont(labelFont);
 
-    // TODO distro logo
     QPixmap *logo = new QPixmap(m_distroIcon.c_str());
     QLabel *logoLabel = new QLabel();
     logoLabel->setPixmap(*logo);
@@ -44,14 +49,17 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
 
     // export app button
     QIcon exportIcon = QIcon::fromTheme("application-x-executable-symbolic");
-    QPushButton *exportApp = new QPushButton(exportIcon, "Installed Apps");
+    QPushButton *installedAppsButton =
+        new QPushButton(exportIcon, "Installed Apps");
+    installedAppsButton->setFont(font);
 
-    connect(exportApp, &QPushButton::clicked, this,
+    connect(installedAppsButton, &QPushButton::clicked, this,
             &ManagePage::onExportAppClicked);
 
     // upgrade
     QIcon updateIcon = QIcon::fromTheme("system-software-update-symbolic");
     QPushButton *upgradeButton = new QPushButton(updateIcon, "Upgrade");
+    upgradeButton->setFont(font);
 
     connect(upgradeButton, &QPushButton::clicked, this,
             [this]() { Distrobox::upgradeBox(m_dbox.name); });
@@ -59,6 +67,7 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     // remove
     QIcon removeIcon = QIcon::fromTheme("edit-delete-symbolic");
     QPushButton *removeButton = new QPushButton(removeIcon, "Delete");
+    removeButton->setFont(font);
 
     connect(removeButton, &QPushButton::clicked, this,
             &ManagePage::onDeleteButtonClicked);
@@ -66,6 +75,7 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     // launch term
     QIcon termIcon = QIcon::fromTheme("utilities-terminal-symbolic");
     QPushButton *termButton = new QPushButton(termIcon, "Open Terminal");
+    termButton->setFont(font);
 
     connect(termButton, &QPushButton::clicked, this,
             [this]() { Distrobox::openTerminal(m_dbox.name); });
@@ -83,13 +93,13 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     hbox->addStretch(1);
 
     grid->addWidget(termButton, 0, 0);
-    grid->addWidget(exportApp, 0, 1);
+    grid->addWidget(installedAppsButton, 0, 1);
     grid->addWidget(upgradeButton, 1, 0);
     grid->addWidget(removeButton, 1, 1);
 
     vbox->addLayout(hbox);
     vbox->addSpacerItem(new QSpacerItem(0, 30));
-    vbox->addLayout(grid);
+    vbox->addWidget(buttonFrame);
     vbox->addStretch(1);
 
     setLayout(vbox);
