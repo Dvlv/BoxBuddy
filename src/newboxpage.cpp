@@ -65,14 +65,11 @@ NewBoxPage::NewBoxPage(QWidget *parent,
         }
     }
 
-    m_rootCheckBox = new QCheckBox();
-
     QFormLayout *form = new QFormLayout();
     form->setVerticalSpacing(20);
     form->setHorizontalSpacing(20);
     form->addRow("Name", m_nameEdit);
     form->addRow("Distro Image", m_distroSelect);
-    form->addRow("Root", m_rootCheckBox);
     form->addItem(new QSpacerItem(0, 10));
     form->addRow(m_createButton.get());
 
@@ -115,16 +112,16 @@ NewBoxPage::NewBoxPage(QWidget *parent,
 }
 
 void NewBoxPage::onFormSubmit() {
-    m_outputLabel->setText("Creating, please wait...");
+    m_outputLabel->setText(
+        "Creating, please wait...\nThis can take quite a long time");
     m_progressBar->show();
     m_outputLabel->repaint();
     m_progressBar->repaint();
 
     QString name = m_nameEdit->text();
     QString distro = m_distroSelect->currentText();
-    bool root = m_rootCheckBox->isChecked();
 
-    emit doCreate(name, distro, root);
+    emit doCreate(name, distro);
 }
 
 void NewBoxPage::onBoxCreated(QString result) {

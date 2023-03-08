@@ -38,13 +38,12 @@ class NewBoxPage : public QWidget {
 
   signals:
     void newBoxCreated();
-    void doCreate(QString name, QString distro, bool root);
+    void doCreate(QString name, QString distro);
 
   private:
     std::vector<std::string> m_images;
     QLineEdit *m_nameEdit = nullptr;
     QComboBox *m_distroSelect = nullptr;
-    QCheckBox *m_rootCheckBox = nullptr;
     QLabel *m_outputLabel = nullptr;
     QProgressBar *m_progressBar = nullptr;
     Worker *m_worker = nullptr;

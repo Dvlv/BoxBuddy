@@ -1,4 +1,5 @@
 #pragma once
+#include <QMetaType>
 #include <string>
 #include <vector>
 
@@ -25,7 +26,7 @@ std::vector<std::string> getAvailableImages();
 std::string tryParseDistroFromImageUrl(const std::string &imageUrl);
 
 std::vector<DBox> getAllBoxes();
-std::string createNewBox(std::string name, std::string image, bool root);
+std::string createNewBox(std::string name, std::string image);
 bool deleteBox(std::string name);
 void openTerminal(std::string name);
 bool exportApplication(std::string boxName, std::string app);
@@ -35,3 +36,4 @@ bool upgradeBox(std::string boxName);
 void initNewBox(std::string boxName);
 
 } // namespace Distrobox
+Q_DECLARE_METATYPE(std::vector<Distrobox::LocalApp>);

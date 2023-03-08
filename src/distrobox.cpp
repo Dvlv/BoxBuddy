@@ -230,11 +230,8 @@ bool Distrobox::deleteBox(std::string boxName) {
 }
 
 std::string Distrobox::createNewBox(const std::string boxName,
-                                    const std::string image, bool root) {
+                                    const std::string image) {
     std::string cmd = "distrobox create " + boxName + " -i " + image + " -Y";
-    if (root) {
-        cmd += " -r";
-    }
 
     cmd += " 2>&1";
 

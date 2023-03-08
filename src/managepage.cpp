@@ -105,12 +105,20 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     setLayout(vbox);
 
     // async worker
+    int id = qRegisterMetaType<std::vector<Distrobox::LocalApp>>();
     m_worker = new Worker;
     m_worker->moveToThread(&workerThread);
 
     connect(&workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
     connect(this, &ManagePage::runBackgroundCmd, m_worker,
             &Worker::runCommandInBox);
+
+    connect(this, &ManagePage::fetchInstalledApps, m_worker,
+            &Worker::fetchInstalledApps);
+
+    connect(m_worker, &Worker::appsFetched, this,
+            &ManagePage::renderInstalledAppsPopup);
+
     workerThread.start();
 }
 
@@ -121,27 +129,45 @@ void ManagePage::onDeleteButtonClicked() {
 
 void ManagePage::onExportAppClicked() {
     // TODO
-    QWidget *popupWindow = new QWidget();
-    popupWindow->setWindowTitle("Export an App");
-    popupWindow->setWindowModality(Qt::ApplicationModal);
+    m_popupWindow = new QWidget();
+    m_popupWindow->setWindowTitle("Export an App");
+    m_popupWindow->setWindowModality(Qt::ApplicationModal);
+    m_popupWindow->resize(300, 100);
 
     QVBoxLayout *vbox = new QVBoxLayout();
-    QGridLayout *grid = new QGridLayout();
+    m_popupWindowGrid = new QGridLayout();
 
     QFont font = this->font();
     font.setPixelSize(18);
 
-    QLabel *successLabel = new QLabel(" ");
-    successLabel->setAlignment(Qt::AlignCenter);
-    successLabel->setFont(font);
+    m_successLabel = new QLabel("Loading Apps...");
+    m_successLabel->setAlignment(Qt::AlignCenter);
+    m_successLabel->setFont(font);
 
-    std::vector<Distrobox::LocalApp> apps =
-        Distrobox::getLocalApplications(m_dbox.name);
+    vbox->addWidget(m_successLabel);
+    vbox->addLayout(m_popupWindowGrid);
+    vbox->addStretch(1);
+    m_popupWindow->setLayout(vbox);
 
+    m_popupWindow->show();
+
+    emit fetchInstalledApps(QString::fromStdString(m_dbox.name));
+}
+
+void ManagePage::onExportService() {
+    // TODO
+}
+
+void ManagePage::renderInstalledAppsPopup(
+    std::vector<Distrobox::LocalApp> apps) {
+
+    m_apps = apps;
+
+    QFont font = this->font();
     font.setPixelSize(16);
 
-    for (int i = 0; i < apps.size(); ++i) {
-        Distrobox::LocalApp app = apps.at(i);
+    for (int i = 0; i < m_apps.size(); ++i) {
+        Distrobox::LocalApp app = m_apps.at(i);
 
         QIcon appIcon = QIcon::fromTheme(app.icon.c_str());
 
@@ -161,39 +187,31 @@ void ManagePage::onExportAppClicked() {
         QPushButton *exportButton = new QPushButton("Add to Menu");
         exportButton->setFont(font);
 
-        connect(exportButton, &QPushButton::clicked, this,
-                [this, successLabel, app]() {
-                    bool res =
-                        Distrobox::exportApplication(m_dbox.name, app.name);
-                    if (res) {
-                        std::string success =
-                            app.name + " Exported Successfully!";
-                        successLabel->setText(success.c_str());
-                    }
-                });
+        connect(exportButton, &QPushButton::clicked, this, [this, app]() {
+            bool res = Distrobox::exportApplication(m_dbox.name, app.name);
+            if (res) {
+                std::string success = app.name + " Exported Successfully!";
+                m_successLabel->setText(success.c_str());
+            }
+        });
 
-        connect(runButton, &QPushButton::clicked, this,
-                [this, popupWindow, app]() {
-                    emit runBackgroundCmd(QString::fromStdString(app.execName),
-                                          QString::fromStdString(m_dbox.name));
-                    popupWindow->close();
-                });
+        connect(runButton, &QPushButton::clicked, this, [this, app]() {
+            emit runBackgroundCmd(QString::fromStdString(app.execName),
+                                  QString::fromStdString(m_dbox.name));
+            m_popupWindow->close();
+        });
 
-        grid->addWidget(appIconLabel, i, 0);
-        grid->addWidget(appLabel, i, 1);
-        grid->addWidget(runButton, i, 2);
-        grid->addWidget(exportButton, i, 3);
+        m_popupWindowGrid->addWidget(appIconLabel, i, 0);
+        m_popupWindowGrid->addWidget(appLabel, i, 1);
+        m_popupWindowGrid->addWidget(runButton, i, 2);
+        m_popupWindowGrid->addWidget(exportButton, i, 3);
     }
 
-    vbox->addWidget(successLabel);
-    vbox->addLayout(grid);
-    popupWindow->setLayout(vbox);
-
-    popupWindow->show();
-}
-
-void ManagePage::onExportService() {
-    // TODO
+    if (m_apps.size() == 0) {
+        m_successLabel->setText("No Apps Found!");
+    } else {
+        m_successLabel->setText("");
+    }
 }
 
 ManagePage::~ManagePage() {
