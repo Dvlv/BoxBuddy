@@ -21,16 +21,19 @@
 
 OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
                            std::map<std::string, std::string> *distroIcons)
-    : QScrollArea(parent), m_dboxes(dboxes), m_distroIcons(distroIcons) {
+    : QWidget(parent), m_dboxes(dboxes), m_distroIcons(distroIcons) {
     QGridLayout *grid = new QGridLayout();
     grid->setSpacing(30);
 
-    // Title at top
     QFont font = this->font();
-    font.setPixelSize(20);
+    font.setPixelSize(16);
+    this->setFont(font);
 
+    // Title at top
     QLabel *label = new QLabel("My Boxes");
-    label->setFont(font);
+    QFont labelFont = this->font();
+    labelFont.setPixelSize(20);
+    label->setFont(labelFont);
 
     // button for each installed box
 
@@ -77,11 +80,6 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
 
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    // main view widget
-    QWidget *scrollingWidget = new QWidget();
-    scrollingWidget->setSizePolicy(QSizePolicy::Expanding,
-                                   QSizePolicy::Expanding);
-
     QFrame *gridFrame = new QFrame();
     gridFrame->setFrameShape(QFrame::StyledPanel);
     gridFrame->setFrameShadow(QFrame::Raised);
@@ -101,8 +99,6 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
     vbox->addSpacerItem(new QSpacerItem(0, 30));
     vbox->addWidget(gridFrame);
     vbox->addStretch(1);
-
-    scrollingWidget->setLayout(vbox);
 
     this->setLayout(vbox);
 }

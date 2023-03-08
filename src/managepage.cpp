@@ -18,6 +18,13 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
                        std::string distroIcon)
     : QWidget(parent), m_dbox(dbox), m_distroIcon(distroIcon) {
 
+    QFont font = this->font();
+    font.setPixelSize(16);
+    this->setFont(font);
+
+    QFont labelFont = this->font();
+    labelFont.setPixelSize(20);
+
     QVBoxLayout *vbox = new QVBoxLayout();
     QGridLayout *grid = new QGridLayout();
     QHBoxLayout *hbox = new QHBoxLayout();
@@ -26,6 +33,7 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     // TODO distro name
     QLabel *title = new QLabel(m_dbox.name.c_str());
     title->setAlignment(Qt::AlignCenter);
+    title->setFont(labelFont);
 
     // TODO distro logo
     QPixmap *logo = new QPixmap(m_distroIcon.c_str());

@@ -16,14 +16,22 @@
 
 NewBoxPage::NewBoxPage(QWidget *parent,
                        std::map<std::string, std::string> *distroIcons)
-    : QScrollArea(parent), m_distroIcons(distroIcons) {
+    : QWidget(parent), m_distroIcons(distroIcons) {
     // TODO smart pointers and maybe member vars
     // TODO put the form in its own frame separate form the title
     m_images = Distrobox::getAvailableImages();
 
+    QFont font = this->font();
+    font.setPixelSize(16);
+    this->setFont(font);
+
+    QFont labelFont = this->font();
+    labelFont.setPixelSize(20);
+
     // output messages
     m_outputLabel = new QLabel(" ");
     m_outputLabel->setAlignment(Qt::AlignCenter);
+    m_outputLabel->setFont(labelFont);
     m_progressBar = new QProgressBar();
     m_progressBar->setRange(0, 0);
     m_progressBar->hide();
@@ -35,13 +43,12 @@ NewBoxPage::NewBoxPage(QWidget *parent,
 
     QIcon backIcon = QIcon::fromTheme("go-previous-symbolic");
     m_backButton = std::make_shared<QPushButton>(backIcon, "Back", this);
-    m_backButton->setGeometry(10, 10, 70, 35);
+    m_backButton->setGeometry(10, 10, 80, 40);
     m_backButton->show();
 
     m_nameEdit = new QLineEdit();
+    m_nameEdit->setFont(font);
 
-    QFont font = this->font();
-    font.setPixelSize(16);
     m_distroSelect = new QComboBox();
     m_distroSelect->setFont(font);
     for (auto &image : m_images) {
@@ -76,9 +83,8 @@ NewBoxPage::NewBoxPage(QWidget *parent,
     formFrame->setLayout(form);
 
     // ------ title
-    font.setPointSize(20);
     QLabel *titleLabel = new QLabel("Create A New Box");
-    titleLabel->setFont(font);
+    titleLabel->setFont(labelFont);
     titleLabel->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *hbox = new QHBoxLayout();
@@ -89,13 +95,13 @@ NewBoxPage::NewBoxPage(QWidget *parent,
 
     QVBoxLayout *vbox = new QVBoxLayout();
     vbox->addItem(hbox);
+    vbox->addSpacerItem(new QSpacerItem(0, 20));
     vbox->addWidget(formFrame);
     vbox->addStretch(1);
     vbox->addWidget(m_outputLabel);
     vbox->addWidget(m_progressBar);
 
     this->setLayout(vbox);
-    this->setWidgetResizable(true);
 
     // async worker
     m_worker = new Worker;

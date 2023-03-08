@@ -7,11 +7,12 @@
 #include <qpushbutton.h>
 
 #include <memory>
+#include <qwidget.h>
 #include <vector>
 
 using std::shared_ptr;
 
-class OverviewPage : public QScrollArea {
+class OverviewPage : public QWidget {
     Q_OBJECT
 
   public:

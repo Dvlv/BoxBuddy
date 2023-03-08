@@ -14,12 +14,13 @@
 #include <qpushbutton.h>
 
 #include <memory>
+#include <qwidget.h>
 #include <string>
 #include <vector>
 
 using std::shared_ptr;
 
-class NewBoxPage : public QScrollArea {
+class NewBoxPage : public QWidget {
     Q_OBJECT
     QThread workerThread;
 
