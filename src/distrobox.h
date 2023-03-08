@@ -18,6 +18,7 @@ struct LocalApp {
     std::string name;
     std::string execName;
     std::string icon;
+    std::string desktopFile;
 };
 
 std::string runCmdInBox(std::string cmd, std::string boxName);

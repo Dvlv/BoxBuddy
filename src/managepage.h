@@ -23,6 +23,8 @@ class ManagePage : public QWidget {
     Distrobox::DBox m_dbox;
     std::string m_distroIcon;
 
+    void showNoTerminalPopup();
+
   public slots:
     void onDeleteButtonClicked();
     void onExportAppClicked();

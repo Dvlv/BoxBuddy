@@ -36,7 +36,6 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
     label->setFont(labelFont);
 
     // button for each installed box
-
     for (int i = 0; i < m_dboxes.size(); i++) {
         Distrobox::DBox dbox = m_dboxes[i];
 
@@ -60,10 +59,6 @@ OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
 
         m_buttons.push_back(std::shared_ptr<QPushButton>(button));
     }
-
-    // for (int i = 0; i < 20; i++) {
-    // buttons.push_back(new QPushButton("Ubuntu"));
-    //}
 
     // button for creating new
     QIcon addIcon = QIcon::fromTheme("list-add");

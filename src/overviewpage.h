@@ -21,7 +21,6 @@ class OverviewPage : public QWidget {
                  std::map<std::string, std::string> *distroIcons = nullptr);
 
     shared_ptr<QPushButton> m_newButton = nullptr;
-
     std::vector<shared_ptr<QPushButton>> m_buttons{};
 
     void onButtonClicked(int index);

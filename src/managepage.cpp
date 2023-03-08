@@ -2,6 +2,7 @@
 #include "dbbackgroundworker.h"
 #include "distrobox.h"
 #include <QGridLayout>
+#include <QMessageBox>
 #include <QPixmap>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -13,6 +14,8 @@
 #include <qicon.h>
 #include <qlabel.h>
 #include <qpixmap.h>
+#include <qwidget.h>
+#include <stdexcept>
 
 ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
                        std::string distroIcon)
@@ -61,8 +64,13 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     QPushButton *upgradeButton = new QPushButton(updateIcon, "Upgrade");
     upgradeButton->setFont(font);
 
-    connect(upgradeButton, &QPushButton::clicked, this,
-            [this]() { Distrobox::upgradeBox(m_dbox.name); });
+    connect(upgradeButton, &QPushButton::clicked, this, [this]() {
+        try {
+            Distrobox::upgradeBox(m_dbox.name);
+        } catch (std::runtime_error &e) {
+            this->showNoTerminalPopup();
+        }
+    });
 
     // remove
     QIcon removeIcon = QIcon::fromTheme("edit-delete-symbolic");
@@ -77,8 +85,13 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     QPushButton *termButton = new QPushButton(termIcon, "Open Terminal");
     termButton->setFont(font);
 
-    connect(termButton, &QPushButton::clicked, this,
-            [this]() { Distrobox::openTerminal(m_dbox.name); });
+    connect(termButton, &QPushButton::clicked, this, [this]() {
+        try {
+            Distrobox::openTerminal(m_dbox.name);
+        } catch (const std::runtime_error &e) {
+            this->showNoTerminalPopup();
+        }
+    });
 
     // back
     QIcon backIcon = QIcon::fromTheme("go-previous-symbolic");
@@ -123,8 +136,23 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
 }
 
 void ManagePage::onDeleteButtonClicked() {
-    Distrobox::deleteBox(m_dbox.name);
-    emit boxDeleted();
+    QMessageBox msgBox;
+
+    QFont font = this->font();
+    font.setPixelSize(16);
+    msgBox.setFont(font);
+
+    msgBox.setWindowTitle("Are you sure?");
+    msgBox.setText("Are you sure you want to delete this box?");
+    msgBox.setInformativeText("This cannot be undone!");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    auto ans = msgBox.exec();
+
+    if (ans == QMessageBox::Yes) {
+        Distrobox::deleteBox(m_dbox.name);
+        emit boxDeleted();
+    }
 }
 
 void ManagePage::onExportAppClicked() {
@@ -188,7 +216,8 @@ void ManagePage::renderInstalledAppsPopup(
         exportButton->setFont(font);
 
         connect(exportButton, &QPushButton::clicked, this, [this, app]() {
-            bool res = Distrobox::exportApplication(m_dbox.name, app.name);
+            bool res =
+                Distrobox::exportApplication(m_dbox.name, app.desktopFile);
             if (res) {
                 std::string success = app.name + " Exported Successfully!";
                 m_successLabel->setText(success.c_str());
@@ -212,6 +241,22 @@ void ManagePage::renderInstalledAppsPopup(
     } else {
         m_successLabel->setText("");
     }
+}
+
+void ManagePage::showNoTerminalPopup() {
+    QMessageBox msgBox;
+
+    QFont font = this->font();
+    font.setPixelSize(16);
+    msgBox.setFont(font);
+
+    msgBox.setWindowTitle("No Terminal Found!");
+    msgBox.setText("Could not find a compatible terminal.");
+    msgBox.setInformativeText("Please install one of:\n- Konsole\n- Gnome "
+                              "Terminal\n- XFCE Terminal\n- Xterm");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();
 }
 
 ManagePage::~ManagePage() {

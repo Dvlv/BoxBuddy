@@ -1,19 +1,21 @@
 # GUI for Distrobox
 
 ## TODO
-- [ ] Background worker + message while loading apps
 - [ ] background worker for do update button
-- [ ] credits button
-- [ ] are you sure popup on delete
-- [ ] detect terminal application
+- [ ] Move .desktop parsing to all in c++
+- [ ] Move data to XDG_DATA_DIR
+- [ ] Install script
 
+- [x] Background worker + message while loading apps
 - [x] background worker for Run in manage
 - [x] Struct for distrobox getlocalapps
 - [x] rename Export app button
 - [x] font and icon sizes in image dropdown
 - [x] Font sizes on more buttons
 - [x] remove add to menu button as it appears to be default anyway
+- [x] detect terminal application
+- [x] are you sure popup on delete
+- [x] Replace the scrollviews and just make the buttons scrollable
 
 ## Possible Functionality
 - [ ] Install .deb or .rpm (detect distro and change accordingly)
-- [ ] Replace the scrollviews and just make the buttons scrollable

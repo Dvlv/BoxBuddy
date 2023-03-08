@@ -126,6 +126,36 @@ std::vector<Distrobox::DBox> Distrobox::getAllBoxes() {
     return boxes;
 }
 
+static inline std::string detectTerminalApp() {
+    std::string term = "UNKNOWN";
+
+    std::string cmd = "which konsole 2>&1";
+    std::string konsolePath = runCmdAndGetOutput(cmd.c_str());
+    if (konsolePath.find("which:") == std::string::npos) {
+        return "konsole -e ";
+    }
+
+    cmd = "which gnome-terminal 2>&1";
+    std::string gnomeTermPath = runCmdAndGetOutput(cmd.c_str());
+    if (gnomeTermPath.find("which:") == std::string::npos) {
+        return "gnome-terminal -- ";
+    }
+
+    cmd = "which xterm 2>&1";
+    std::string xtermPath = runCmdAndGetOutput(cmd.c_str());
+    if (xtermPath.find("which:") == std::string::npos) {
+        return "xterm -e ";
+    }
+
+    cmd = "which xfce4-terminal 2>&1";
+    std::string xfceTermPath = runCmdAndGetOutput(cmd.c_str());
+    if (xfceTermPath.find("which:") == std::string::npos) {
+        return "xfce4-terminal -e ";
+    }
+
+    throw std::runtime_error("No terminal app found!");
+}
+
 std::vector<Distrobox::LocalApp>
 Distrobox::getLocalApplications(std::string name) {
     std::string appsOutput =
@@ -157,7 +187,12 @@ Distrobox::getLocalApplications(std::string name) {
         }
 
         if (appExec.size() > 5) {
-            appExec = appExec.substr(5, appExec.size());
+            appExec = appExec.substr(5, appExec.size() - 1);
+        }
+
+        // some appExecs end in %U, so strip
+        if (appExec.find("%U") != std::string::npos) {
+            appExec = appExec.substr(0, appExec.size() - 3);
         }
 
         std::string appIcon = Distrobox::runCmdInBox(
@@ -167,11 +202,26 @@ Distrobox::getLocalApplications(std::string name) {
             appIcon = appIcon.substr(5, appIcon.size());
         }
 
+        std::string appName = Distrobox::runCmdInBox(
+            "bash ./src/get-app-name.sh " + desktopFile, name);
+
+        // some desktop files have multiple names
+        // we only want the first one
+        std::vector<std::string> appNames = explodeString(appName, '\n');
+        if (appNames.size() > 0) {
+            appName = appNames[0];
+        }
+
+        if (appName.size() > 5) {
+            appName = appName.substr(5, appName.size());
+        }
+
         // substr gets rid of "exec=" and "icon="
         auto app = Distrobox::LocalApp{
-            .name = desktopFile,
+            .name = appName,
             .execName = appExec.substr(0, appExec.size() - 1),
             .icon = appIcon.substr(0, appIcon.size() - 2),
+            .desktopFile = desktopFile,
         };
 
         apps.push_back(app);
@@ -206,7 +256,7 @@ bool Distrobox::addToMenu(std::string boxName) {
 }
 
 bool Distrobox::upgradeBox(std::string boxName) {
-    std::string terminalCmd = "konsole -e";
+    std::string terminalCmd = detectTerminalApp();
     std::string cmd = terminalCmd + " distrobox upgrade " + boxName;
 
     std::system(cmd.c_str());
@@ -215,7 +265,8 @@ bool Distrobox::upgradeBox(std::string boxName) {
 }
 
 void Distrobox::openTerminal(std::string boxName) {
-    std::string terminalCmd = "setsid konsole -e";
+    std::string terminalCmd = detectTerminalApp();
+    terminalCmd = "setsid " + terminalCmd;
     std::string cmd = terminalCmd + " distrobox enter " + boxName + " &";
 
     std::system(cmd.c_str());
