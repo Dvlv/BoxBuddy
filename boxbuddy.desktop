@@ -5,3 +5,4 @@ Type=Application
 Icon=boxbuddy
 Categories=Utility;
 Comment=A Graphical Application For Managing Distroboxes
+Terminal=false

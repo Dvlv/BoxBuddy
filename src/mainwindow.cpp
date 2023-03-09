@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
         xdgDataDir = std::getenv("XDG_DATA_HOME");
     }
 
-    std::string iconPath = xdgDataDir + "/boxbuddy/imgs/boxbuddy.svg";
+    std::string iconPath = xdgDataDir + "/icons/boxbuddy/boxbuddy.svg";
     this->setWindowIcon(QIcon(QString::fromStdString(iconPath)));
 
     m_distroIcons = {

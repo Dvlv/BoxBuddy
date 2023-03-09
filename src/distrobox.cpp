@@ -156,7 +156,7 @@ static inline std::string detectTerminalApp() {
 std::vector<Distrobox::LocalApp>
 Distrobox::getLocalApplications(std::string name) {
     std::string appsOutput =
-        Distrobox::runCmdInBox("./src/list-local-apps.sh", name);
+        Distrobox::runCmdInBox("boxbuddy-list-local-apps.sh", name);
 
     std::vector<std::string> desktopFiles = explodeString(appsOutput, '\n');
     for (auto &desktopFile : desktopFiles) {
@@ -174,7 +174,7 @@ Distrobox::getLocalApplications(std::string name) {
 
     for (auto desktopFile : desktopFiles) {
         std::string appExec = Distrobox::runCmdInBox(
-            "bash ./src/get-app-exec.sh " + desktopFile, name);
+            "boxbuddy-get-app-exec.sh " + desktopFile, name);
 
         // some desktop files have multiple execs
         // we only want the first one
@@ -192,15 +192,15 @@ Distrobox::getLocalApplications(std::string name) {
             appExec = appExec.substr(0, appExec.size() - 3);
         }
 
-        std::string appIcon = Distrobox::runCmdInBox(
-            "bash ./src/get-app-icon.sh " + desktopFile, name);
+        std::string appIcon =
+            Distrobox::runCmdInBox("boxbuddy-get-app-icon.sh", name);
 
         if (appIcon.size() > 5) {
             appIcon = appIcon.substr(5, appIcon.size());
         }
 
-        std::string appName = Distrobox::runCmdInBox(
-            "bash ./src/get-app-name.sh " + desktopFile, name);
+        std::string appName =
+            Distrobox::runCmdInBox("boxbuddy-list-local-apps.sh", name);
 
         // some desktop files have multiple names
         // we only want the first one

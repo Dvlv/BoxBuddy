@@ -11,20 +11,20 @@ else
     BIN_DIR=${INSTALL_DIR}/bin
 fi
 
-# copy icons
+# copy images
 mkdir -p ${DATAHOME}/boxbuddy/
 cp -r data/imgs ${DATAHOME}/boxbuddy/
 cp -r data/imgs ${DATAHOME}/boxbuddy/
 
 # copy binary and scripts
 mkdir -p ${BIN_DIR}
-cp boxbuddy ${BIN_DIR}/
-cp src/*.sh ${BIN_DIR}/
+cp boxbuddy ${BIN_DIR}
+cp src/*.sh ${BIN_DIR}
 
 # copy icons
-mkdir -p ~/.icons/
-
-cp -r data/icons/* ~/.icons/
+mkdir -p ${DATAHOME}/icons/boxbuddy/
+cp -r data/imgs/boxbuddy.svg ${DATAHOME}/icons/boxbuddy/
 
 # desktop
 cp boxbuddy.desktop ${DATAHOME}/applications/
+sed -i "s|Icon=.*|Icon=${DATAHOME}/icons/boxbuddy/boxbuddy.svg|" ${DATAHOME}/applications/boxbuddy.desktop
