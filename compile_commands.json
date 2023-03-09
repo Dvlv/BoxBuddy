@@ -1,44 +1,44 @@
 [
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/dbgui_autogen/mocs_compilation.cpp.o -c /home/Dvlv/Programming/dbgui/b/dbgui_autogen/mocs_compilation.cpp",
-  "file": "/home/Dvlv/Programming/dbgui/b/dbgui_autogen/mocs_compilation.cpp",
-  "output": "CMakeFiles/dbgui.dir/dbgui_autogen/mocs_compilation.cpp.o"
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/boxbuddy_autogen/mocs_compilation.cpp.o -c /home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/mocs_compilation.cpp",
+  "file": "/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/boxbuddy.dir/boxbuddy_autogen/mocs_compilation.cpp.o"
 },
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/src/main.cpp.o -c /home/Dvlv/Programming/dbgui/src/main.cpp",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/src/main.cpp.o -c /home/Dvlv/Programming/dbgui/src/main.cpp",
   "file": "/home/Dvlv/Programming/dbgui/src/main.cpp",
-  "output": "CMakeFiles/dbgui.dir/src/main.cpp.o"
+  "output": "CMakeFiles/boxbuddy.dir/src/main.cpp.o"
 },
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/src/mainwindow.cpp.o -c /home/Dvlv/Programming/dbgui/src/mainwindow.cpp",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/src/mainwindow.cpp.o -c /home/Dvlv/Programming/dbgui/src/mainwindow.cpp",
   "file": "/home/Dvlv/Programming/dbgui/src/mainwindow.cpp",
-  "output": "CMakeFiles/dbgui.dir/src/mainwindow.cpp.o"
+  "output": "CMakeFiles/boxbuddy.dir/src/mainwindow.cpp.o"
 },
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/src/managepage.cpp.o -c /home/Dvlv/Programming/dbgui/src/managepage.cpp",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/src/managepage.cpp.o -c /home/Dvlv/Programming/dbgui/src/managepage.cpp",
   "file": "/home/Dvlv/Programming/dbgui/src/managepage.cpp",
-  "output": "CMakeFiles/dbgui.dir/src/managepage.cpp.o"
+  "output": "CMakeFiles/boxbuddy.dir/src/managepage.cpp.o"
 },
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/src/overviewpage.cpp.o -c /home/Dvlv/Programming/dbgui/src/overviewpage.cpp",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/src/overviewpage.cpp.o -c /home/Dvlv/Programming/dbgui/src/overviewpage.cpp",
   "file": "/home/Dvlv/Programming/dbgui/src/overviewpage.cpp",
-  "output": "CMakeFiles/dbgui.dir/src/overviewpage.cpp.o"
+  "output": "CMakeFiles/boxbuddy.dir/src/overviewpage.cpp.o"
 },
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/src/newboxpage.cpp.o -c /home/Dvlv/Programming/dbgui/src/newboxpage.cpp",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/src/newboxpage.cpp.o -c /home/Dvlv/Programming/dbgui/src/newboxpage.cpp",
   "file": "/home/Dvlv/Programming/dbgui/src/newboxpage.cpp",
-  "output": "CMakeFiles/dbgui.dir/src/newboxpage.cpp.o"
+  "output": "CMakeFiles/boxbuddy.dir/src/newboxpage.cpp.o"
 },
 {
   "directory": "/home/Dvlv/Programming/dbgui/b",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/dbgui_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/dbgui.dir/src/distrobox.cpp.o -c /home/Dvlv/Programming/dbgui/src/distrobox.cpp",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/home/Dvlv/Programming/dbgui/b -I/home/Dvlv/Programming/dbgui -I/home/Dvlv/Programming/dbgui/b/boxbuddy_autogen/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -std=gnu++20 -fPIC -o CMakeFiles/boxbuddy.dir/src/distrobox.cpp.o -c /home/Dvlv/Programming/dbgui/src/distrobox.cpp",
   "file": "/home/Dvlv/Programming/dbgui/src/distrobox.cpp",
-  "output": "CMakeFiles/dbgui.dir/src/distrobox.cpp.o"
+  "output": "CMakeFiles/boxbuddy.dir/src/distrobox.cpp.o"
 }
 ]

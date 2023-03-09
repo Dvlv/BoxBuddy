@@ -14,8 +14,8 @@
 #include <qlayoutitem.h>
 #include <qobject.h>
 
-NewBoxPage::NewBoxPage(QWidget *parent,
-                       std::map<std::string, std::string> *distroIcons)
+NewBoxPage::NewBoxPage(
+    QWidget *parent, std::unordered_map<std::string, std::string> *distroIcons)
     : QWidget(parent), m_distroIcons(distroIcons) {
     // TODO smart pointers and maybe member vars
     // TODO put the form in its own frame separate form the title

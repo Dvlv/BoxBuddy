@@ -25,8 +25,9 @@ class NewBoxPage : public QWidget {
     QThread workerThread;
 
   public:
-    NewBoxPage(QWidget *parent = nullptr,
-               std::map<std::string, std::string> *distroIcons = nullptr);
+    NewBoxPage(
+        QWidget *parent = nullptr,
+        std::unordered_map<std::string, std::string> *distroIcons = nullptr);
     virtual ~NewBoxPage();
 
     shared_ptr<QPushButton> m_createButton = nullptr;
@@ -48,7 +49,7 @@ class NewBoxPage : public QWidget {
     QProgressBar *m_progressBar = nullptr;
     Worker *m_worker = nullptr;
 
-    std::map<std::string, std::string> *m_distroIcons = nullptr;
+    std::unordered_map<std::string, std::string> *m_distroIcons = nullptr;
 };
 
 #endif // NEWBOXPAGE_H

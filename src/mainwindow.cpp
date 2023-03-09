@@ -22,27 +22,40 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     m_dboxes = Distrobox::getAllBoxes();
-    // TODO xdg_data_dir
+
+    this->setWindowTitle("Box Buddy");
+
+    std::string home = std::getenv("HOME");
+    std::string xdgDataDir = home + "/.local/share";
+    if (std::getenv("XDG_DATA_HOME") != nullptr) {
+        xdgDataDir = std::getenv("XDG_DATA_HOME");
+    }
+
+    std::string iconPath = xdgDataDir + "/boxbuddy/imgs/boxbuddy.svg";
+    this->setWindowIcon(QIcon(QString::fromStdString(iconPath)));
+
     m_distroIcons = {
-        {"alma", "data/imgs/alma.png"},
-        {"alpine", "data/imgs/alpine.png"},
-        {"amazon", "data/imgs/amazon.png"},
-        {"arch", "data/imgs/arch.png"},
-        {"centos", "data/imgs/centos.svg"},
-        {"clearlinux", "data/imgs/clearlinux.png"},
-        {"debian", "data/imgs/debian.png"},
-        {"fedora", "data/imgs/fedora.svg"},
-        {"gentoo", "data/imgs/gentoo.png"},
-        {"kali", "data/imgs/kali.png"},
-        {"mageia", "data/imgs/mageia.png"},
-        {"opensuse", "data/imgs/opensuse.png"},
-        {"oracle", "data/imgs/oracle.png"},
-        {"redhat", "data/imgs/redhat.png"},
-        {"rocky", "data/imgs/rocky.png"},
-        {"slackware", "data/imgs/slackware.png"},
-        {"ubuntu", "data/imgs/ubuntu.svg"},
-        {"void", "data/imgs/void.png"},
+        {"alma", xdgDataDir + "/boxbuddy/imgs/alma.png"},
+        {"alpine", xdgDataDir + "/boxbuddy/imgs/alpine.png"},
+        {"amazon", xdgDataDir + "/boxbuddy/imgs/amazon.png"},
+        {"arch", xdgDataDir + "/boxbuddy/imgs/arch.png"},
+        {"centos", xdgDataDir + "/boxbuddy/imgs/centos.svg"},
+        {"clearlinux", xdgDataDir + "/boxbuddy/imgs/clearlinux.png"},
+        {"debian", xdgDataDir + "/boxbuddy/imgs/debian.png"},
+        {"fedora", xdgDataDir + "/boxbuddy/imgs/fedora.svg"},
+        {"gentoo", xdgDataDir + "/boxbuddy/imgs/gentoo.png"},
+        {"kali", xdgDataDir + "/boxbuddy/imgs/kali.png"},
+        {"mageia", xdgDataDir + "/boxbuddy/imgs/mageia.png"},
+        {"opensuse", xdgDataDir + "/boxbuddy/imgs/opensuse.png"},
+        {"oracle", xdgDataDir + "/boxbuddy/imgs/oracle.png"},
+        {"redhat", xdgDataDir + "/boxbuddy/imgs/redhat.png"},
+        {"rocky", xdgDataDir + "/boxbuddy/imgs/rocky.png"},
+        {"slackware", xdgDataDir + "/boxbuddy/imgs/slackware.png"},
+        {"ubuntu", xdgDataDir + "/boxbuddy/imgs/ubuntu.svg"},
+        {"void", xdgDataDir + "/boxbuddy/imgs/void.png"},
     };
+
+    std::cout << m_distroIcons["alma"] << std::endl;
 
     showOverviewPage();
 }

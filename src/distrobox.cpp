@@ -131,26 +131,23 @@ static inline std::string detectTerminalApp() {
 
     std::string cmd = "which konsole 2>&1";
     std::string konsolePath = runCmdAndGetOutput(cmd.c_str());
-    if (konsolePath.find("which:") == std::string::npos) {
+    if (konsolePath.find("which:") == std::string::npos &&
+        konsolePath.length() > 0) {
         return "konsole -e ";
     }
 
     cmd = "which gnome-terminal 2>&1";
     std::string gnomeTermPath = runCmdAndGetOutput(cmd.c_str());
-    if (gnomeTermPath.find("which:") == std::string::npos) {
+    if (gnomeTermPath.find("which:") == std::string::npos &&
+        gnomeTermPath.length() > 0) {
         return "gnome-terminal -- ";
     }
 
     cmd = "which xterm 2>&1";
     std::string xtermPath = runCmdAndGetOutput(cmd.c_str());
-    if (xtermPath.find("which:") == std::string::npos) {
+    if (xtermPath.find("which:") == std::string::npos &&
+        xtermPath.length() > 0) {
         return "xterm -e ";
-    }
-
-    cmd = "which xfce4-terminal 2>&1";
-    std::string xfceTermPath = runCmdAndGetOutput(cmd.c_str());
-    if (xfceTermPath.find("which:") == std::string::npos) {
-        return "xfce4-terminal -e ";
     }
 
     throw std::runtime_error("No terminal app found!");

@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow {
     MainWindow(QWidget *parent = nullptr);
 
     std::vector<Distrobox::DBox> m_dboxes{};
-    std::map<std::string, std::string> m_distroIcons;
+    std::unordered_map<std::string, std::string> m_distroIcons;
 
   private:
     OverviewPage *m_overviewpage = nullptr;

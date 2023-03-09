@@ -1,9 +1,7 @@
 # GUI for Distrobox
 
 ## TODO
-- [ ] background worker for do update button
 - [ ] Move .desktop parsing to all in c++
-- [ ] Move data to XDG_DATA_DIR
 - [ ] Install script
 - [ ] which check needs to also check result not empty
 - [ ] cache installed apps
@@ -19,6 +17,7 @@
 - [x] detect terminal application
 - [x] are you sure popup on delete
 - [x] Replace the scrollviews and just make the buttons scrollable
+- [x] Move data to XDG_DATA_DIR
 
 ## Possible Functionality
 - [ ] Install .deb or .rpm (detect distro and change accordingly)

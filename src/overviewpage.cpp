@@ -19,8 +19,9 @@
 #include <qscrollarea.h>
 #include <vector>
 
-OverviewPage::OverviewPage(QWidget *parent, std::vector<Distrobox::DBox> dboxes,
-                           std::map<std::string, std::string> *distroIcons)
+OverviewPage::OverviewPage(
+    QWidget *parent, std::vector<Distrobox::DBox> dboxes,
+    std::unordered_map<std::string, std::string> *distroIcons)
     : QWidget(parent), m_dboxes(dboxes), m_distroIcons(distroIcons) {
     QGridLayout *grid = new QGridLayout();
     grid->setSpacing(30);

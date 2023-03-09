@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Box Buddy
+Exec=boxbuddy
+Type=Application
+Icon=boxbuddy
+Categories=Utility;
+Comment=A Graphical Application For Managing Distroboxes

@@ -253,7 +253,7 @@ void ManagePage::showNoTerminalPopup() {
     msgBox.setWindowTitle("No Terminal Found!");
     msgBox.setText("Could not find a compatible terminal.");
     msgBox.setInformativeText("Please install one of:\n- Konsole\n- Gnome "
-                              "Terminal\n- XFCE Terminal\n- Xterm");
+                              "Terminal\n- Xterm");
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
