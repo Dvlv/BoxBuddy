@@ -5,6 +5,9 @@
 - [ ] Move .desktop parsing to all in c++
 - [ ] Move data to XDG_DATA_DIR
 - [ ] Install script
+- [ ] which check needs to also check result not empty
+- [ ] cache installed apps
+- [ ] see about positioning installed apps popup over parent
 
 - [x] Background worker + message while loading apps
 - [x] background worker for Run in manage
