@@ -159,9 +159,6 @@ Distrobox::getLocalApplications(std::string name) {
         Distrobox::runCmdInBox("boxbuddy-list-local-apps.sh", name);
 
     std::vector<std::string> desktopFiles = explodeString(appsOutput, '\n');
-    for (auto &desktopFile : desktopFiles) {
-        desktopFile = desktopFile.substr(0, desktopFile.size() - 1);
-    }
 
     if (desktopFiles.size() == 1 &&
         desktopFiles[0].find("No such file or directory") !=
@@ -173,55 +170,40 @@ Distrobox::getLocalApplications(std::string name) {
     std::vector<Distrobox::LocalApp> apps;
 
     for (auto desktopFile : desktopFiles) {
-        std::string appExec = Distrobox::runCmdInBox(
-            "boxbuddy-get-app-exec.sh " + desktopFile, name);
-
-        // some desktop files have multiple execs
-        // we only want the first one
-        std::vector<std::string> appExecs = explodeString(appExec, '\n');
-        if (appExecs.size() > 0) {
-            appExec = appExecs[0];
+        if (desktopFile.find(";") == std::string::npos) {
+            continue;
         }
 
-        if (appExec.size() > 5) {
-            appExec = appExec.substr(5, appExec.size() - 1);
+        std::vector<std::string> parts = explodeString(desktopFile, ';');
+        if (parts.size() != 4) {
+            continue;
         }
+
+        std::string appExec = parts[3];
 
         // some appExecs end in %U, so strip
         if (appExec.find("%U") != std::string::npos) {
             appExec = appExec.substr(0, appExec.size() - 3);
         }
 
-        std::string appIcon =
-            Distrobox::runCmdInBox("boxbuddy-get-app-icon.sh", name);
+        trim(parts[0]);
+        trim(parts[1]);
+        trim(parts[2]);
+        trim(appExec);
 
-        if (appIcon.size() > 5) {
-            appIcon = appIcon.substr(5, appIcon.size());
-        }
-
-        std::string appName =
-            Distrobox::runCmdInBox("boxbuddy-list-local-apps.sh", name);
-
-        // some desktop files have multiple names
-        // we only want the first one
-        std::vector<std::string> appNames = explodeString(appName, '\n');
-        if (appNames.size() > 0) {
-            appName = appNames[0];
-        }
-
-        if (appName.size() > 5) {
-            appName = appName.substr(5, appName.size());
-        }
-
-        // substr gets rid of "exec=" and "icon="
         auto app = Distrobox::LocalApp{
-            .name = appName,
-            .execName = appExec.substr(0, appExec.size() - 1),
-            .icon = appIcon.substr(0, appIcon.size() - 2),
-            .desktopFile = desktopFile,
+            .name = parts[2],
+            .execName = appExec,
+            .icon = parts[1],
+            .desktopFile = parts[0],
         };
 
         apps.push_back(app);
+    }
+
+    for (auto &app : apps) {
+        std::cout << "nm: " << app.name << ";; ic " << app.icon << ";; ex "
+                  << app.execName << ";;df " << app.desktopFile << std::endl;
     }
 
     return apps;
