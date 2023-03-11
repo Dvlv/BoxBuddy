@@ -23,8 +23,9 @@ cp src/*.sh ${BIN_DIR}
 
 # copy icons
 mkdir -p ${DATAHOME}/icons/boxbuddy/
-cp -r data/imgs/boxbuddy.svg ${DATAHOME}/icons/boxbuddy/
+cp -r data/imgs/boxbuddy.png ${DATAHOME}/icons/boxbuddy/
 
 # desktop
+mkdir -p ${DATAHOME}/applications/
 cp boxbuddy.desktop ${DATAHOME}/applications/
-sed -i "s|Icon=.*|Icon=${DATAHOME}/icons/boxbuddy/boxbuddy.svg|" ${DATAHOME}/applications/boxbuddy.desktop
+sed -i "s|Icon=.*|Icon=${DATAHOME}/icons/boxbuddy/boxbuddy.png|" ${DATAHOME}/applications/boxbuddy.desktop

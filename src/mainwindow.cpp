@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
         xdgDataDir = std::getenv("XDG_DATA_HOME");
     }
 
-    std::string iconPath = xdgDataDir + "/icons/boxbuddy/boxbuddy.svg";
+    std::string iconPath = xdgDataDir + "/icons/boxbuddy/boxbuddy.png";
     this->setWindowIcon(QIcon(QString::fromStdString(iconPath)));
 
     m_distroIcons = {
@@ -54,8 +54,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
         {"ubuntu", xdgDataDir + "/boxbuddy/imgs/ubuntu.svg"},
         {"void", xdgDataDir + "/boxbuddy/imgs/void.png"},
     };
-
-    std::cout << m_distroIcons["alma"] << std::endl;
 
     showOverviewPage();
 }

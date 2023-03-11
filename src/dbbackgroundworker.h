@@ -15,8 +15,6 @@ class Worker : public QObject {
     void commandRun();
     void appsFetched(std::vector<Distrobox::LocalApp> apps);
 
-    void noTerminalFound();
-
   public slots:
     void createDistrobox(QString name, QString image) {
         std::string output =

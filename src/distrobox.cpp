@@ -201,11 +201,6 @@ Distrobox::getLocalApplications(std::string name) {
         apps.push_back(app);
     }
 
-    for (auto &app : apps) {
-        std::cout << "nm: " << app.name << ";; ic " << app.icon << ";; ex "
-                  << app.execName << ";;df " << app.desktopFile << std::endl;
-    }
-
     return apps;
 }
 
@@ -213,7 +208,6 @@ bool Distrobox::exportApplication(std::string boxName, std::string app) {
     std::string cmd = "distrobox-export -a " + app;
 
     std::string output = Distrobox::runCmdInBox(cmd.c_str(), boxName);
-    printf("%s, %s\n", app.c_str(), output.c_str());
 
     return output.find("Error:") == std::string::npos;
 }

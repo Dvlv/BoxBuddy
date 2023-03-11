@@ -1,20 +1,53 @@
-# GUI for Distrobox
+# BoxBuddy
 
-## TODO
-- [ ] Move .desktop parsing to all in c++
-- [ ] Install script
+A Graphical manager for [Distrobox](https://github.com/89luca89/distrobox), enabling the creation and use of multiple linux distributions via containers.
 
-- [x] Background worker + message while loading apps
-- [x] background worker for Run in manage
-- [x] Struct for distrobox getlocalapps
-- [x] rename Export app button
-- [x] font and icon sizes in image dropdown
-- [x] Font sizes on more buttons
-- [x] remove add to menu button as it appears to be default anyway
-- [x] detect terminal application
-- [x] are you sure popup on delete
-- [x] Replace the scrollviews and just make the buttons scrollable
-- [x] Move data to XDG_DATA_DIR
+## See it in action
 
-## Possible Functionality
+TODO screenshots and/or screencast
+
+
+## Installing
+
+### Dependencies
+- [Distrobox](https://github.com/89luca89/distrobox)
+    - `Podman` or `Docker`
+
+- One of the following Terminals:
+    - Konsole
+    - Gnome Terminal
+    - XTerm
+
+### Instructions
+Simply clone or download a zip of this repo, and launch the `install.sh` script. 
+
+The application will be installed to `~/.local/bin` by default, or you can export `INSTALL_DIR=/my/other/path` to change the destination.
+Icons will be installed in `$XDG_DATA_HOME`, which is `~/.local/share` by default.
+
+Ensure that the install destination is in your `$PATH`.
+
+
+### Uninstalling
+Simply delete the `boxbuddy` folder in your install destination and your `$XDG_DATA_HOME`, then remove the `boxbuddy.desktop` file from `~/.local/share/applications`.
+
+## Developing
+
+### Dependencies
+All of the above mentioned dependencies, as well as:
+
+- cmake
+- qt development libraries
+
+The easiest way to get these on most distros is to just install Qt Creator from your package manager.
+
+### Building
+Typical `cmake` workflow, e.g.:
+    - `mkdir build`
+    - `cd build`
+    - `cmake ..`
+    - `make`
+
+A `go.sh` script is provided for convenience, but be aware this will run the `install.sh` script on every build
+
+## Possible Future Functionality
 - [ ] Install .deb or .rpm (detect distro and change accordingly)

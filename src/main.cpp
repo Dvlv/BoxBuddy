@@ -11,19 +11,4 @@ int main(int argc, char *argv[]) {
     w.show();
 
     return a.exec();
-
-    /*
-    auto boxes = Distrobox::getAllBoxes();
-
-    for (auto box : boxes) {
-        std::cout << box.name << " " << box.distro << " " << box.ID
-                  << std::endl;
-    }
-
-    std::cout << std::endl;
-
-    for (auto app : Distrobox::getLocalApplications("tumbly")) {
-        std::cout << app << std::endl;
-    }
-    */
 }
