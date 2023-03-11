@@ -3,14 +3,9 @@
 A Graphical manager for [Distrobox](https://github.com/89luca89/distrobox), enabling the creation and use of multiple linux distributions via containers.
 
 ## Screenshots
-
-![screenshots/overview.png](/screenshots/overview.png)
 ![screenshots/newbox.png](/screenshots/newbox.png)
 ![screenshots/manage.png](/screenshots/manage.png)
 ![screenshots/installedapps.png](/screenshots/installedapps.png)
-
-
-
 
 
 ## Installing
