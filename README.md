@@ -2,9 +2,9 @@
 
 A Graphical manager for [Distrobox](https://github.com/89luca89/distrobox), enabling the creation and use of multiple linux distributions via containers.
 
-## See it in action
+## Screenshots
 
-![boxbuddy-demo.webm](/boxbuddy-demo.webm)
+![screenshots/overview.png](/screenshots/overview.png)
 
 
 ## Installing
