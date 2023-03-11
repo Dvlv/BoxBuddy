@@ -4,7 +4,7 @@ A Graphical manager for [Distrobox](https://github.com/89luca89/distrobox), enab
 
 ## See it in action
 
-TODO screenshots and/or screencast
+![boxbuddy-demo.webm](/boxbuddy-demo.webm)
 
 
 ## Installing
