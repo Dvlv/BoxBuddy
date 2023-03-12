@@ -42,6 +42,7 @@ The easiest way to get these on most distros is to just install Qt Creator from 
 
 ### Building
 Typical `cmake` workflow, e.g.:
+
     - `mkdir build`
     - `cd build`
     - `cmake ..`
