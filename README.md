@@ -50,5 +50,3 @@ Typical `cmake` workflow, e.g.:
 
 A `go.sh` script is provided for convenience, but be aware this will run the `install.sh` script on every build
 
-## Possible Future Functionality
-- [ ] Install .deb or .rpm (detect distro and change accordingly)
