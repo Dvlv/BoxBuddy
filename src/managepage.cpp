@@ -158,7 +158,7 @@ void ManagePage::onDeleteButtonClicked() {
 void ManagePage::onExportAppClicked() {
     // TODO
     m_popupWindow = new QWidget();
-    m_popupWindow->setWindowTitle("Export an App");
+    m_popupWindow->setWindowTitle("Installed Apps");
     m_popupWindow->setWindowModality(Qt::ApplicationModal);
     m_popupWindow->resize(300, 100);
 
