@@ -29,3 +29,5 @@ cp -r data/imgs/boxbuddy.png ${DATAHOME}/icons/boxbuddy/
 mkdir -p ${DATAHOME}/applications/
 cp boxbuddy.desktop ${DATAHOME}/applications/
 sed -i "s|Icon=.*|Icon=${DATAHOME}/icons/boxbuddy/boxbuddy.png|" ${DATAHOME}/applications/boxbuddy.desktop
+
+echo "BoxBuddy successfully installed!"
