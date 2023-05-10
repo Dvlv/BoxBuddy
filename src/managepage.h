@@ -7,6 +7,7 @@
 #include <QThread>
 #include <QWidget>
 #include <qgridlayout.h>
+#include <qlineedit.h>
 #include <qpushbutton.h>
 #include <vector>
 
@@ -30,6 +31,10 @@ class ManagePage : public QWidget {
     void onExportAppClicked();
     void onExportService();
     void renderInstalledAppsPopup(std::vector<Distrobox::LocalApp> apps);
+    void showClonePopup();
+    void onCloneClicked();
+    void onCloneCancelClicked();
+    void onSaveToFileClicked();
 
   signals:
     void boxDeleted();
@@ -42,5 +47,15 @@ class ManagePage : public QWidget {
     std::vector<Distrobox::LocalApp> m_apps;
     QLabel *m_successLabel = nullptr;
     QGridLayout *m_popupWindowGrid = nullptr;
+
+    // clone popup
+    QWidget *m_clonePopup = nullptr;
+    QPushButton *m_cloneButton = nullptr;
+    QPushButton *m_cloneCancelButton = nullptr;
+    QLineEdit *m_cloneName = nullptr;
+
+    // save to file
+    QLineEdit *m_saveToFileLoc = nullptr;
+    QLabel *m_savePendingLabel = nullptr;
 };
 #endif // MANAGEPAGE_H

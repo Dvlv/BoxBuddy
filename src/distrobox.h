@@ -29,6 +29,7 @@ std::string tryParseDistroFromImageUrl(const std::string &imageUrl);
 std::vector<DBox> getAllBoxes();
 std::string createNewBox(std::string name, std::string image,
                          std::string homeDir);
+std::string cloneBox(std::string origBoxName, std::string newBoxName);
 bool deleteBox(std::string name);
 void openTerminal(std::string name);
 bool exportApplication(std::string boxName, std::string app);
@@ -36,6 +37,7 @@ bool exportService(std::string boxName, std::string service);
 bool addToMenu(std::string boxName);
 bool upgradeBox(std::string boxName);
 void initNewBox(std::string boxName);
+void saveBoxToFile(std::string fileLoc, std::string boxName);
 
 } // namespace Distrobox
 Q_DECLARE_METATYPE(std::vector<Distrobox::LocalApp>);

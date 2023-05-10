@@ -1,6 +1,7 @@
 #include "distrobox.h"
 #include <algorithm>
 #include <array>
+#include <filesystem>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -271,6 +272,22 @@ std::string Distrobox::createNewBox(const std::string boxName,
     return output;
 }
 
+std::string Distrobox::cloneBox(const std::string origBoxName,
+                                const std::string newBoxName) {
+    std::string cmd = "distrobox stop " + origBoxName + " -Y; " +
+                      "distrobox create --name " + newBoxName + " --clone " +
+                      origBoxName + " -Y";
+
+    cmd += " 2>&1";
+
+    std::string output = runCmdAndGetOutput(cmd.c_str());
+    // TODO this drops into an interactive prompt if image not found.
+    // not sure if a way around that, though it shouldnt happen as
+    // I'm using a dropdown for selecting the image
+
+    return output;
+}
+
 std::vector<std::string> Distrobox::getAvailableImages() {
     std::string imagesOutput = runCmdAndGetOutput("distrobox create -C");
 
@@ -294,4 +311,19 @@ void Distrobox::initNewBox(std::string boxName) {
     std::string cmd = "setsid distrobox enter " + boxName + " -- ls";
 
     std::system(cmd.c_str());
+}
+
+void Distrobox::saveBoxToFile(std::string fileLoc, std::string boxName) {
+    using path = std::filesystem::path;
+
+    std::string fileName = path(fileLoc).filename();
+
+    std::string cmd = "podman container commit -p " + boxName + " " + fileName;
+
+    runCmdAndGetOutput(cmd.c_str());
+
+    std::string cmd2 =
+        "podman save " + fileName + ":latest | gzip > " + fileLoc + ".tar.gz";
+
+    runCmdAndGetOutput(cmd2.c_str());
 }

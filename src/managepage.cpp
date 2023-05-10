@@ -1,6 +1,7 @@
 #include "managepage.h"
 #include "dbbackgroundworker.h"
 #include "distrobox.h"
+#include <QFileDialog>
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QPixmap>
@@ -13,6 +14,7 @@
 #include <qgridlayout.h>
 #include <qicon.h>
 #include <qlabel.h>
+#include <qlineedit.h>
 #include <qpixmap.h>
 #include <qwidget.h>
 #include <stdexcept>
@@ -93,11 +95,30 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
         }
     });
 
+    // clone
+    QIcon cloneIcon = QIcon::fromTheme("edit-copy");
+    QPushButton *cloneButton = new QPushButton(cloneIcon, "Clone");
+    cloneButton->setFont(font);
+
+    connect(cloneButton, &QPushButton::clicked, this,
+            &ManagePage::showClonePopup);
+
+    // save to file
+    QIcon saveIcon = QIcon::fromTheme("document-save-as");
+    QPushButton *saveButton = new QPushButton(saveIcon, "Save To File");
+    saveButton->setFont(font);
+
+    connect(saveButton, &QPushButton::clicked, this,
+            &ManagePage::onSaveToFileClicked);
+
     // back
     QIcon backIcon = QIcon::fromTheme("go-previous-symbolic");
     m_backButton = std::make_shared<QPushButton>(backIcon, "Back", this);
     m_backButton->setGeometry(10, 10, 80, 40);
     m_backButton->show();
+
+    m_savePendingLabel = new QLabel("");
+    m_savePendingLabel->setAlignment(Qt::AlignCenter);
 
     // hbox->addWidget(m_backButton.get());
     hbox->addStretch(1);
@@ -109,11 +130,14 @@ ManagePage::ManagePage(QWidget *parent, Distrobox::DBox dbox,
     grid->addWidget(installedAppsButton, 0, 1);
     grid->addWidget(upgradeButton, 1, 0);
     grid->addWidget(removeButton, 1, 1);
+    grid->addWidget(cloneButton, 2, 0);
+    grid->addWidget(saveButton, 2, 1);
 
     vbox->addLayout(hbox);
     vbox->addSpacerItem(new QSpacerItem(0, 30));
     vbox->addWidget(buttonFrame);
     vbox->addStretch(1);
+    vbox->addWidget(m_savePendingLabel);
 
     setLayout(vbox);
 
@@ -257,6 +281,82 @@ void ManagePage::showNoTerminalPopup() {
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
+}
+
+void ManagePage::onSaveToFileClicked() {
+    QString fileLoc =
+        QFileDialog::getSaveFileName(this, tr("Save File"), "/home");
+
+    if (!fileLoc.length()) {
+        return;
+    }
+
+    m_savePendingLabel->setText("Saving, Please Wait...");
+    m_savePendingLabel->repaint();
+
+    Distrobox::saveBoxToFile(fileLoc.toStdString(), m_dbox.name);
+
+    m_savePendingLabel->setText("Saved to " + fileLoc + ".tar.gz");
+}
+
+void ManagePage::showClonePopup() {
+    m_clonePopup = new QWidget();
+    m_clonePopup->setWindowTitle("Clone a Box");
+    m_clonePopup->setWindowModality(Qt::ApplicationModal);
+    m_clonePopup->resize(300, 100);
+
+    QVBoxLayout *vbox = new QVBoxLayout();
+
+    QFont font = this->font();
+    font.setPixelSize(18);
+
+    auto nameLabel = new QLabel("Enter a name for your clone:");
+    nameLabel->setAlignment(Qt::AlignCenter);
+    nameLabel->setFont(font);
+
+    m_cloneName = new QLineEdit();
+    m_cloneName->setFont(font);
+
+    m_cloneButton = new QPushButton("Clone");
+    m_cloneCancelButton = new QPushButton("Cancel");
+
+    connect(m_cloneCancelButton, &QPushButton::clicked, this,
+            &ManagePage::onCloneCancelClicked);
+
+    connect(m_cloneButton, &QPushButton::clicked, this,
+            &ManagePage::onCloneClicked);
+
+    QHBoxLayout *hbox = new QHBoxLayout();
+    hbox->addWidget(m_cloneCancelButton);
+    hbox->addWidget(m_cloneButton);
+
+    vbox->addWidget(nameLabel);
+    vbox->addWidget(m_cloneName);
+    vbox->addLayout(hbox);
+    vbox->addStretch(1);
+    m_clonePopup->setLayout(vbox);
+
+    m_clonePopup->show();
+}
+
+void ManagePage::onCloneClicked() {
+    std::string orig = m_dbox.name;
+    std::string newName = m_cloneName->text().toStdString();
+
+    if (!newName.length()) {
+        // TODO an error msg
+        return;
+    }
+
+    Distrobox::cloneBox(orig, newName);
+    m_clonePopup->hide();
+    emit boxDeleted(); // I know I should do another one, but this one does what
+                       // I want already
+}
+
+void ManagePage::onCloneCancelClicked() {
+    m_cloneName->setText("");
+    m_clonePopup->hide();
 }
 
 ManagePage::~ManagePage() {
