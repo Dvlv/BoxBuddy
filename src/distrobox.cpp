@@ -254,8 +254,12 @@ bool Distrobox::deleteBox(std::string boxName) {
 }
 
 std::string Distrobox::createNewBox(const std::string boxName,
-                                    const std::string image) {
+                                    const std::string image,
+                                    const std::string homeDir) {
     std::string cmd = "distrobox create " + boxName + " -i " + image + " -Y";
+    if (homeDir != "$HOME") {
+        cmd += " --home " + homeDir;
+    }
 
     cmd += " 2>&1";
 

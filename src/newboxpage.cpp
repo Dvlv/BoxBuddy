@@ -3,6 +3,7 @@
 #include "distrobox.h"
 #include <QCheckBox>
 #include <QComboBox>
+#include <QFileDialog>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QProgressBar>
@@ -41,14 +42,33 @@ NewBoxPage::NewBoxPage(
     connect(m_createButton.get(), &QPushButton::clicked, this,
             &NewBoxPage::onFormSubmit);
 
+    // back
     QIcon backIcon = QIcon::fromTheme("go-previous-symbolic");
     m_backButton = std::make_shared<QPushButton>(backIcon, "Back", this);
     m_backButton->setGeometry(10, 10, 80, 40);
     m_backButton->show();
 
+    // name
     m_nameEdit = new QLineEdit();
     m_nameEdit->setFont(font);
 
+    // homedir
+    m_homeDir = new QLineEdit();
+    m_homeDir->setFont(font);
+    m_homeDir->setText("$HOME");
+
+    m_homeDirSelectButton = std::make_shared<QPushButton>("Select");
+    connect(m_homeDirSelectButton.get(), &QPushButton::clicked, this,
+            &NewBoxPage::onSelectHomeDirClicked);
+
+    auto hb = new QHBoxLayout();
+    hb->addWidget(m_homeDir);
+    hb->addWidget(m_homeDirSelectButton.get());
+
+    auto homeDirFrame = new QFrame();
+    homeDirFrame->setLayout(hb);
+
+    // distro select
     m_distroSelect = new QComboBox();
     m_distroSelect->setFont(font);
     for (auto &image : m_images) {
@@ -70,6 +90,7 @@ NewBoxPage::NewBoxPage(
     form->setHorizontalSpacing(20);
     form->addRow("Name", m_nameEdit);
     form->addRow("Distro Image", m_distroSelect);
+    form->addRow("Home Dir", homeDirFrame);
     form->addItem(new QSpacerItem(0, 10));
     form->addRow(m_createButton.get());
 
@@ -120,8 +141,9 @@ void NewBoxPage::onFormSubmit() {
 
     QString name = m_nameEdit->text();
     QString distro = m_distroSelect->currentText();
+    QString homeDir = m_homeDir->text();
 
-    emit doCreate(name, distro);
+    emit doCreate(name, distro, homeDir);
 }
 
 void NewBoxPage::onBoxCreated(QString result) {
@@ -129,6 +151,15 @@ void NewBoxPage::onBoxCreated(QString result) {
     m_progressBar->hide();
 
     emit newBoxCreated();
+}
+
+void NewBoxPage::onSelectHomeDirClicked() {
+    // https://stackoverflow.com/questions/3941917/can-the-open-file-dialog-be-used-to-select-a-folder
+    QString dir = QFileDialog::getExistingDirectory(
+        this, tr("Open Directory"), "/home",
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    m_homeDir->setText(dir);
 }
 
 NewBoxPage::~NewBoxPage() {

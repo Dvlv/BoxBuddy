@@ -32,18 +32,21 @@ class NewBoxPage : public QWidget {
 
     shared_ptr<QPushButton> m_createButton = nullptr;
     shared_ptr<QPushButton> m_backButton = nullptr;
+    shared_ptr<QPushButton> m_homeDirSelectButton = nullptr;
 
   public slots:
     void onFormSubmit();
     void onBoxCreated(QString result);
+    void onSelectHomeDirClicked();
 
   signals:
     void newBoxCreated();
-    void doCreate(QString name, QString distro);
+    void doCreate(QString name, QString distro, QString homeDir);
 
   private:
     std::vector<std::string> m_images;
     QLineEdit *m_nameEdit = nullptr;
+    QLineEdit *m_homeDir = nullptr;
     QComboBox *m_distroSelect = nullptr;
     QLabel *m_outputLabel = nullptr;
     QProgressBar *m_progressBar = nullptr;

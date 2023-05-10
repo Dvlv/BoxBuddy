@@ -16,9 +16,9 @@ class Worker : public QObject {
     void appsFetched(std::vector<Distrobox::LocalApp> apps);
 
   public slots:
-    void createDistrobox(QString name, QString image) {
-        std::string output =
-            Distrobox::createNewBox(name.toStdString(), image.toStdString());
+    void createDistrobox(QString name, QString image, QString homeDir) {
+        std::string output = Distrobox::createNewBox(
+            name.toStdString(), image.toStdString(), homeDir.toStdString());
 
         Distrobox::initNewBox(name.toStdString());
 
