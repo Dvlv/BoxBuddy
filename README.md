@@ -1,6 +1,8 @@
 # BoxBuddy
 A Graphical manager for [Distrobox](https://github.com/89luca89/distrobox), enabling the creation and use of multiple linux distributions via containers.
 
+**NOTE** Now deprecated for GTK Version [available here.](https://github.com/Dvlv/BoxBuddyGTK)
+
 ## Screenshots
 ![screenshots/newbox.png](/screenshots/newbox.png)
 ![screenshots/manage.png](/screenshots/manage.png)
