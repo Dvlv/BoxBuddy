@@ -1,4 +1,9 @@
 # BoxBuddy
+## Deprecated
+
+This version is now deprecated, please use [the replacement written with Rust and GTK4/Libadwaita.](https://github.com/Dvlv/BoxBuddyRS)
+
+## Original Readme:
 A Graphical manager for [Distrobox](https://github.com/89luca89/distrobox), enabling the creation and use of multiple linux distributions via containers.
 
 **NOTE** Now deprecated for GTK Version [available here.](https://github.com/Dvlv/BoxBuddyGTK)
